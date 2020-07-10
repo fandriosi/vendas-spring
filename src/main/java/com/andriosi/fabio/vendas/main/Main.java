@@ -8,8 +8,8 @@ import org.springframework.context.annotation.ComponentScans;
 
 @SpringBootApplication
 @EntityScan("com.andriosi.fabio.vendas.entity")
-@ComponentScan({"com.andriosi.fabio.vendas.controller",
-        "com.andriosi.fabio.vendas.session"})
+@ComponentScan({"com.andriosi.fabio.vendas.controllers",
+        "com.andriosi.fabio.vendas.services"})
 public class Main {
     public static void main(String... args){
         SpringApplication.run(Main.class, args);

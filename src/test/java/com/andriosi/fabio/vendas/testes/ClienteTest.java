@@ -12,24 +12,24 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ClienteTest {
-    @Test
+    //@Test
     public void clienteTesteA() throws EntityExistsException {
         Cliente cliente = new Cliente();
         cliente.setNome("Gisele");
         new ClienteFacade().create(cliente);
     }
-   @Test
+   //@Test
     public void clienteTesteB() {
         Cliente cliente = new ClienteFacade().findAll().get(0);
         assertEquals("Gisele", cliente.getNome());
    }
-   @Test
+  // @Test
     public void clienteTesteC(){
         Cliente cliente = new ClienteFacade().findAll().get(0);
         cliente.setNome("Jose Da Silava");
         assertEquals("Jose Da Silava", cliente.getNome());
     }
-    @Test
+    //@Test
     public void clienteTesteD(){
         ClienteFacade clienteFacade = new ClienteFacade();
         Cliente cliente = clienteFacade.findAll().get(0);
