@@ -1,17 +1,17 @@
 package com.andriosi.fabio.vendas.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 @Entity
 public class Cliente implements Serializable {
+    private static final long serialVersionUID = 2365932197989L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column
+    @NotNull
     private String nome;
-    @Column
     private String email;
-    @Column
     private String phone;
 
     public Long getId() {
@@ -27,7 +27,7 @@ public class Cliente implements Serializable {
     }
 
     public void setNome(String nome) {
-        this.nome = nome;
+        this.nome = new StringCapitalize().getCapitalize(nome);
     }
 
     public String getEmail() {

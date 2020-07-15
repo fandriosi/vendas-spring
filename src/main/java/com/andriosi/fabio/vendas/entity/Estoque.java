@@ -4,13 +4,13 @@ import javax.persistence.*;
 import java.io.Serializable;
 @Entity
 public class Estoque implements Serializable {
+    private static final long serialVersionUID = 55463259889L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    @ManyToOne
+    @OneToOne
+    @Column(unique =true)
     private Produtos produtos;
-
     @Column
     private int qauntidade;
 
