@@ -11,10 +11,10 @@ public class Compra implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL)
     private Cliente clientes;
 
-    @OneToOne(orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL)
     private Produtos produtos;
 
     @Column

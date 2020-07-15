@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 
 @Service
 public class ClienteFacade extends AbstractFacade<Cliente> {
@@ -21,5 +22,13 @@ public class ClienteFacade extends AbstractFacade<Cliente> {
             entityManager = emf.createEntityManager();
         }
         return entityManager;
+    }
+    public void remove(Cliente entity){
+        EntityManager em = getEntityManager();
+        em.getTransaction().begin();
+        TypedQuery<Cliente> cq = em.createNamedQuery("Cliente.remove", Cliente.class)
+                .setParameter("id", entity.getId());
+        cq.executeUpdate();
+        em.getTransaction().commit();
     }
 }

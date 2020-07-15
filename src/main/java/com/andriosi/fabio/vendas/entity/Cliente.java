@@ -2,6 +2,7 @@ package com.andriosi.fabio.vendas.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+@NamedQuery(name="Cliente.remove", query="DELETE FROM Cliente c WHERE c.id= :id")
 @Entity
 public class Cliente implements Serializable {
     @Id
