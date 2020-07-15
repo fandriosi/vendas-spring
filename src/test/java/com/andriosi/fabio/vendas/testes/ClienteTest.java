@@ -1,6 +1,7 @@
 package com.andriosi.fabio.vendas.testes;
 
 import com.andriosi.fabio.vendas.entity.Cliente;
+import com.andriosi.fabio.vendas.entity.StringCapitalize;
 import com.andriosi.fabio.vendas.services.ClienteFacade;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -12,18 +13,18 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ClienteTest {
-    //@Test
+   // @Test
     public void clienteTesteA() throws EntityExistsException {
         Cliente cliente = new Cliente();
         cliente.setNome("Gisele");
         new ClienteFacade().create(cliente);
     }
-   //@Test
+  // @Test
     public void clienteTesteB() {
         Cliente cliente = new ClienteFacade().findAll().get(0);
         assertEquals("Gisele", cliente.getNome());
    }
-  // @Test
+   //@Test
     public void clienteTesteC(){
         Cliente cliente = new ClienteFacade().findAll().get(0);
         cliente.setNome("Jose Da Silava");
@@ -37,5 +38,17 @@ public class ClienteTest {
         clienteFacade.remove(cliente);
         Cliente clientet = clienteFacade.find(id);
         assertNull("The car should be null", clientet);
+    }
+   // @Test
+    public void capitalizeStrTest(){
+        StringCapitalize capitalize = new StringCapitalize();
+        assertEquals("Fabio Luis Andriosi", capitalize.getCapitalize("fabio luis andriosi"));
+    }
+    @Test
+    public void findByCombobox(){
+        new ClienteFacade().findByCombobox().stream().forEach((item)->{
+            System.out.println("id"+ item.getId());
+            System.out.println("nome"+ item.getNome());
+        });
     }
 }

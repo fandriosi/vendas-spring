@@ -1,18 +1,16 @@
 package com.andriosi.fabio.vendas.services;
-
-import com.andriosi.fabio.vendas.entity.Cliente;
+import com.andriosi.fabio.vendas.entity.Venda;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import java.util.List;
 
 @Service
-public class ClienteFacade extends AbstractFacade<Cliente> {
+public class VendaFacade extends AbstractFacade<Venda> {
     private EntityManager entityManager;
-    public ClienteFacade() {
-        super(Cliente.class);
+    public VendaFacade() {
+        super(Venda.class);
     }
 
     @Override
@@ -23,15 +21,11 @@ public class ClienteFacade extends AbstractFacade<Cliente> {
         }
         return entityManager;
     }
-
-    public void remove(Cliente entity){
+    public void remove(Venda entity){
         EntityManager em = getEntityManager();
         em.getTransaction().begin();
-        em.createQuery("DELETE FROM Cliente c WHERE c.id = :id")
+        em.createQuery("DELETE FROM Compra c WHERE c.id=:id")
                 .setParameter("id", entity.getId()).executeUpdate();
         em.getTransaction().commit();
-    }
-    public List<Cliente> findByCombobox(){
-       return(List<Cliente>) getEntityManager().createNamedQuery("Cliente.findByCombobox").getResultList();
     }
 }

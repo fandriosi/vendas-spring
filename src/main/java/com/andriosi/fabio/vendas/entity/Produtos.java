@@ -1,22 +1,28 @@
 package com.andriosi.fabio.vendas.entity;
 
-import javax.persistence.*;
-import java.io.Serializable;
+import org.springframework.format.annotation.NumberFormat;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.math.BigDecimal;
 @Entity
 public class Produtos implements Serializable {
+    private static final long serialVersionUID = 238958697989L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotNull
     @Column(unique = true)
-    private int codigoBarra;
-    @Column
+    private Integer codigoBarra;
+    @Column(unique = true)
     private  String descricao;
-    @Column
-    private double precoCusto;
-    @Column
-    private double preco;
-
+    @NumberFormat(pattern = "###,###.##")
+    private Double precoCusto;
+    @NumberFormat(pattern = "###,###.##")
+    private Double preco;
+    @OneToOne
+    public Categoria categoria;
     public Long getId() {
         return id;
     }
@@ -30,30 +36,38 @@ public class Produtos implements Serializable {
     }
 
     public void setDescricao(String descricao) {
-        this.descricao = descricao;
+        this.descricao = new StringCapitalize().getCapitalize(descricao);
     }
 
-    public int getCodigoBarra() {
+    public Integer getCodigoBarra() {
         return codigoBarra;
     }
 
-    public void setCodigoBarra(int codigoBarra) {
+    public void setCodigoBarra(Integer codigoBarra) {
         this.codigoBarra = codigoBarra;
     }
 
-    public double getPrecoCusto() {
-        return precoCusto;
-    }
-
-    public void setPrecoCusto(double precoCusto) {
+    public void setPrecoCusto(Double precoCusto) {
         this.precoCusto = precoCusto;
     }
 
-    public double getPreco() {
+    public Double getPrecoCusto() {
+        return precoCusto;
+    }
+
+    public Double getPreco() {
         return preco;
     }
 
-    public void setPreco(double preco) {
+    public void setPreco(Double preco) {
         this.preco = preco;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 }

@@ -6,32 +6,21 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-public class Compra implements Serializable {
+public class Venda implements Serializable {
+    private static final long serialVersionUID = 12125485697989L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private Cliente clientes;
-
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private Produtos produtos;
-
-    @Column
     private  int quantidade;
-
-    @Column
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataCompra;
-
-    @Column
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataRecebimento;
-
-    @Column
     private TipoPagamento tipoPagamento;
-
-    @Column
     private double valorPago;
 
     public Long getId() {
