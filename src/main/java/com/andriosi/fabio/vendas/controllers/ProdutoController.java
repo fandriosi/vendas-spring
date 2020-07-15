@@ -1,6 +1,6 @@
 package com.andriosi.fabio.vendas.controllers;
 
-import com.andriosi.fabio.vendas.entity.Cliente;
+import com.andriosi.fabio.vendas.entity.Categoria;
 import com.andriosi.fabio.vendas.entity.Produtos;
 import com.andriosi.fabio.vendas.services.CategoriaFacade;
 import com.andriosi.fabio.vendas.services.ProdutosFacade;
@@ -15,12 +15,15 @@ import java.util.List;
 public class ProdutoController {
     @Autowired
     private ProdutosFacade produtosFacade;
+    @Autowired
+    private CategoriaFacade categoriaFacade;
     @GetMapping("/produtos")
     public ResponseEntity<List<Produtos>> findAll(){
         return new ResponseEntity<>(produtosFacade.findAll(), HttpStatus.OK );
     }
     @PostMapping("/produtos")
     public void addCliente(@RequestBody Produtos produtos){
+        produtos.setCategoria(categoriaFacade.find(produtos.getCategoria().getId()));
         produtosFacade.create(produtos);
     }
 

@@ -6,11 +6,11 @@
         <class>com.andriosi.fabio.vendas.entity.Produtos</class>
         <class>com.andriosi.fabio.vendas.entity.Cliente</class>
         <class>com.andriosi.fabio.vendas.entity.Estoque</class>
-        <class>com.andriosi.fabio.vendas.entity.Compra</class>
+        <class>com.andriosi.fabio.vendas.entity.Venda</class>
         <class>com.andriosi.fabio.vendas.entity.Categoria</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" /> <!-- DB Driver -->
-            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost/Compras" /> <!-- BD Mane -->
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost/vendas" /> <!-- BD Mane -->
             <property name="javax.persistence.jdbc.user" value="postgres" /> <!-- DB User -->
             <property name="javax.persistence.jdbc.password" value="769020" /> <!-- DB Password -->
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgresPlusDialect"/> <!-- DB Dialect -->

@@ -9,7 +9,6 @@ public class Estoque implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @OneToOne
-    @Column(unique =true)
     private Produtos produtos;
     @Column
     private int qauntidade;

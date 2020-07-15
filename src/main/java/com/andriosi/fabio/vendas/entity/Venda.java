@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-public class Compra implements Serializable {
+public class Venda implements Serializable {
     private static final long serialVersionUID = 12125485697989L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
