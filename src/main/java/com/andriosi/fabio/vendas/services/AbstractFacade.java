@@ -26,7 +26,6 @@ public abstract class AbstractFacade<T> {
             EntityManager em = getEntityManager();
             em.getTransaction().begin();
             em.persist(entity);
-            em.flush();
             em.getTransaction().commit();
         }catch (RollbackException exception){
             throw new EntityExistsException(exception);
@@ -41,7 +40,6 @@ public abstract class AbstractFacade<T> {
         EntityManager em = getEntityManager();
         em.getTransaction().begin();
         em.merge(entity);
-        em.flush();
         em.getTransaction().commit();
     }
     /**

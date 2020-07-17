@@ -13,10 +13,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ClienteTest {
-   // @Test
+    @Test
     public void clienteTesteA() throws EntityExistsException {
         Cliente cliente = new Cliente();
-        cliente.setNome("Gisele");
+        cliente.setNome("Thais ");
         new ClienteFacade().create(cliente);
     }
   // @Test
@@ -44,11 +44,5 @@ public class ClienteTest {
         StringCapitalize capitalize = new StringCapitalize();
         assertEquals("Fabio Luis Andriosi", capitalize.getCapitalize("fabio luis andriosi"));
     }
-    @Test
-    public void findByCombobox(){
-        new ClienteFacade().findByCombobox().stream().forEach((item)->{
-            System.out.println("id"+ item.getId());
-            System.out.println("nome"+ item.getNome());
-        });
-    }
+
 }

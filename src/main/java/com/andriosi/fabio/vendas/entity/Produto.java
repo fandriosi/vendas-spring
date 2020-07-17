@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 @Entity
-public class Produtos implements Serializable {
+public class Produto implements Serializable {
     private static final long serialVersionUID = 238958697989L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

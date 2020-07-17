@@ -16,7 +16,7 @@ public class VendaFacade extends AbstractFacade<Venda> {
     @Override
     protected EntityManager getEntityManager() {
         if(entityManager == null){
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("EM_COMPRAS");
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("EM_VENDAS");
             entityManager = emf.createEntityManager();
         }
         return entityManager;
@@ -24,7 +24,7 @@ public class VendaFacade extends AbstractFacade<Venda> {
     public void remove(Venda entity){
         EntityManager em = getEntityManager();
         em.getTransaction().begin();
-        em.createQuery("DELETE FROM Compra c WHERE c.id=:id")
+        em.createQuery("DELETE FROM Vendas v WHERE v.id=:id")
                 .setParameter("id", entity.getId()).executeUpdate();
         em.getTransaction().commit();
     }
