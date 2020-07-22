@@ -18,7 +18,7 @@ public class ClienteFacade extends AbstractFacade<Cliente> {
     @Override
     protected EntityManager getEntityManager() {
         if(entityManager == null){
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("EM_COMPRAS");
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("EM_VENDAS");
             entityManager = emf.createEntityManager();
         }
         return entityManager;
