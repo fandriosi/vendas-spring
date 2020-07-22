@@ -30,4 +30,13 @@ public class EstoqueFacade extends AbstractFacade<Estoque> {
                 .setParameter("id", entity.getId()).executeUpdate();
         em.getTransaction().commit();
     }
+    public void edit(Estoque entity){
+        EntityManager em = getEntityManager();
+        em.getTransaction().begin();
+        em.createQuery("UPDATE Estoque e SET e.quantidade=:quantidade, e.produto.id=:produtoId  WHERE e.id=:id")
+                .setParameter("id", entity.getId()).
+                setParameter("quantidade", entity.getQuantidade())
+                .setParameter("produtoId", entity.getProduto().getId()).executeUpdate();
+        em.getTransaction().commit();
+    }
 }

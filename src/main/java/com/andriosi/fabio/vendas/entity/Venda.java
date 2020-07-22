@@ -8,13 +8,13 @@ import java.util.List;
 
 @Entity
 public class Venda implements Serializable {
-    private static final long serialVersionUID = 12125485697989L;
+    private static final long serialVersionUID = 123456789L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @OneToOne
     private Cliente clientes;
-    @OneToMany(fetch= FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch= FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "fk_produtosvendidos")
     private List<ProdutosVendidos> produtosVendidos = new ArrayList<>();
     @Temporal(TemporalType.DATE)

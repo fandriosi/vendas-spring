@@ -1,5 +1,7 @@
 package com.andriosi.fabio.vendas.services;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.RollbackException;

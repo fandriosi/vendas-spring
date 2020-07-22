@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 @Entity
 public class Categoria  implements Serializable {
-    private static final long serialVersionUID = 2389586425169L;
+    private static final long serialVersionUID = 789456123L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

@@ -12,11 +12,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 public class ProdutosTest {
-    @Test
+    //@Test
     public void ProdutosTesteA() throws EntityExistsException {
         Produto produto = new Produto();
-        produto.setDescricao("blusa azul preta de colarinho");
-        produto.setCodigoBarra(1288);
+        produto.setDescricao("blusa pink de colarinho");
+        produto.setCodigoBarra(12898);
         produto.setPrecoCusto(23.90);
         produto.setPreco(produto.getPrecoCusto()* 2);
         Categoria categoria = new CategoriaFacade().find(2L);

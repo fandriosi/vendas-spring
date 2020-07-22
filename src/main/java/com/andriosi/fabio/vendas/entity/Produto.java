@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 @Entity
 public class Produto implements Serializable {
-    private static final long serialVersionUID = 238958697989L;
+    private static final long serialVersionUID = 456123789L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

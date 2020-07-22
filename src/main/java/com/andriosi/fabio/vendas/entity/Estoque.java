@@ -1,17 +1,18 @@
 package com.andriosi.fabio.vendas.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 @Entity
 public class Estoque implements Serializable {
-    private static final long serialVersionUID = 55463259889L;
+    private static final long serialVersionUID = 945612378L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @OneToOne
     private Produto produto;
     @Column
-    private int qauntidade;
+    private int quantidade;
 
     public Long getId() {
         return id;
@@ -29,11 +30,11 @@ public class Estoque implements Serializable {
         this.produto = produto;
     }
 
-    public int getQauntidade() {
-        return qauntidade;
+    public int getQuantidade() {
+        return quantidade;
     }
 
-    public void setQauntidade(int qauntidade) {
-        this.qauntidade = qauntidade;
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
     }
 }

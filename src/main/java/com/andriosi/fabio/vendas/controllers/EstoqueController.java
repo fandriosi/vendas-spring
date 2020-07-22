@@ -11,18 +11,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("resources")
 public class EstoqueController {
     @Autowired
     private EstoqueFacade estoqueFacade;
-    @Autowired
-    private ProdutoFacade produtoFacade;
-    @GetMapping("/estoque")
+    @GetMapping("/estoques")
     public ResponseEntity<List<Estoque>> findAll(){
         return new ResponseEntity<>(estoqueFacade.findAll(), HttpStatus.OK );
     }
     @PostMapping("/estoque")
     public void addCliente(@RequestBody Estoque estoque){
-        estoque.setProduto(produtoFacade.find(estoque.getProduto().getId()));
         estoqueFacade.create(estoque);
     }
 

@@ -9,7 +9,7 @@ import org.junit.Test;
 import java.util.*;
 
 public class VendaTest {
-    @Test
+    //@Test
     public void VendaTestA(){
         Produto produto = new ProdutoFacade().findAll().get(0);
         Produto produto1 = new ProdutoFacade().findAll().get(1);
@@ -30,7 +30,7 @@ public class VendaTest {
         venda.setDataCompra(new GregorianCalendar(2020,8,5));
         new VendaFacade().create(venda);
     }
-    @Test
+    //@Test
     public void VendaTestB(){
         new VendaFacade().findAll().forEach(item ->{
             System.out.println(item.getProdutosVendidos());

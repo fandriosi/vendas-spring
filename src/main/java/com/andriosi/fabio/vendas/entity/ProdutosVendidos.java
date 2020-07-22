@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 public class ProdutosVendidos {
-    private static final long serialVersionUID = 2365932197989L;
+    private static final long serialVersionUID = 123456789L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

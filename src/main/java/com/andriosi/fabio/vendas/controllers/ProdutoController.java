@@ -8,9 +8,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
+@RequestMapping("resources")
 public class ProdutoController {
     @Autowired
     private ProdutoFacade produtoFacade;
@@ -20,18 +22,21 @@ public class ProdutoController {
     public ResponseEntity<List<Produto>> findAll(){
         return new ResponseEntity<>(produtoFacade.findAll(), HttpStatus.OK );
     }
-    @PostMapping("/produtos")
+    @GetMapping("/produto/{id}")
+    public Produto getById(@PathVariable Long id){
+        return produtoFacade.find(id);
+    }
+    @PostMapping("/produto")
     public void addCliente(@RequestBody Produto produto){
-        produto.setCategoria(categoriaFacade.find(produto.getCategoria().getId()));
         produtoFacade.create(produto);
     }
 
-    @DeleteMapping("/produtos")
+    @DeleteMapping("/produto")
     public void deleteClintes(@RequestBody Produto produto){
         produtoFacade.remove(produto);
     }
 
-    @PutMapping("/produtos")
+    @PutMapping("/produto")
     public void updateCliente(@RequestBody Produto produto){
         produtoFacade.edit(produto);
     }
