@@ -6,7 +6,7 @@ import java.io.Serializable;
 @NamedQuery(name = "Cliente.findByCombobox", query = "SELECT c.id, c.nome FROM Cliente c")
 @Entity
 public class Cliente implements Serializable {
-    private static final long serialVersionUID = 2365932197989L;
+    private static final long serialVersionUID = 894561237L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

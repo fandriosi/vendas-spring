@@ -2,24 +2,25 @@ package com.andriosi.fabio.vendas.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 @Entity
 public class Venda implements Serializable {
-    private static final long serialVersionUID = 12125485697989L;
+    private static final long serialVersionUID = 123456789L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @OneToOne
     private Cliente clientes;
-    @OneToOne
-    private Produtos produtos;
-    private  int quantidade;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dataCompra;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dataRecebimento;
+    @OneToMany(fetch= FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "fk_produtosvendidos")
+    private List<ProdutosVendidos> produtosVendidos = new ArrayList<>();
+    @Temporal(TemporalType.DATE)
+    private Calendar dataCompra;
+    @Temporal(TemporalType.DATE)
+    private Calendar dataRecebimento;
     private TipoPagamento tipoPagamento;
     private double valorPago;
 
@@ -39,35 +40,27 @@ public class Venda implements Serializable {
         this.clientes = clientes;
     }
 
-    public Produtos getProdutos() {
-        return produtos;
+    public List<ProdutosVendidos> getProdutosVendidos() {
+        return produtosVendidos;
     }
 
-    public void setProdutos(Produtos produtos) {
-        this.produtos = produtos;
+    public void setProdutosVendidos(List<ProdutosVendidos> produtosVendidos) {
+        this.produtosVendidos = produtosVendidos;
     }
 
-    public int getQuantidade() {
-        return quantidade;
-    }
-
-    public void setQuantidade(int quantidade) {
-        this.quantidade = quantidade;
-    }
-
-    public Date getDataCompra() {
+    public Calendar getDataCompra() {
         return dataCompra;
     }
 
-    public void setDataCompra(Date dataCompra) {
+    public void setDataCompra(Calendar dataCompra) {
         this.dataCompra = dataCompra;
     }
 
-    public Date getDataRecebimento() {
+    public Calendar getDataRecebimento() {
         return dataRecebimento;
     }
 
-    public void setDataRecebimento(Date dataRecebimento) {
+    public void setDataRecebimento(Calendar dataRecebimento) {
         this.dataRecebimento = dataRecebimento;
     }
 

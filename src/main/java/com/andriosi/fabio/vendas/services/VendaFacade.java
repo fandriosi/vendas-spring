@@ -24,7 +24,7 @@ public class VendaFacade extends AbstractFacade<Venda> {
     public void remove(Venda entity){
         EntityManager em = getEntityManager();
         em.getTransaction().begin();
-        em.createQuery("DELETE FROM Venda v WHERE v.id=:id")
+        em.createQuery("DELETE FROM Compra c WHERE c.id=:id")
                 .setParameter("id", entity.getId()).executeUpdate();
         em.getTransaction().commit();
     }

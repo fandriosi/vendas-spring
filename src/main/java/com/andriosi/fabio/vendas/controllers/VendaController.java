@@ -10,10 +10,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("resources")
 public class  VendaController {
     @Autowired
     private VendaFacade vendaFacade;
-    @GetMapping("/venda")
+    @GetMapping("/vendas")
     public ResponseEntity<List<Venda>> findAll(){
         return new ResponseEntity<>(vendaFacade.findAll(), HttpStatus.OK );
     }
