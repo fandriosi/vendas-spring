@@ -14,6 +14,13 @@ public class Categoria  implements Serializable {
     @Column(unique = true)
     private String descricao;
 
+    public Categoria() {}
+
+    public Categoria(Long id, @NotNull String descricao) {
+        this.id = id;
+        this.descricao = descricao;
+    }
+
     public Long getId() {
         return id;
     }
