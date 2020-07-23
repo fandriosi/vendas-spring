@@ -24,13 +24,6 @@ public class ClienteFacade extends AbstractFacade<Cliente> {
         return entityManager;
     }
 
-    public void remove(Cliente entity){
-        EntityManager em = getEntityManager();
-        em.getTransaction().begin();
-        em.createQuery("DELETE FROM Cliente c WHERE c.id = :id")
-                .setParameter("id", entity.getId()).executeUpdate();
-        em.getTransaction().commit();
-    }
     public List<Cliente> findByCombobox(){
        return(List<Cliente>) getEntityManager().createNamedQuery("Cliente.findByCombobox").getResultList();
     }

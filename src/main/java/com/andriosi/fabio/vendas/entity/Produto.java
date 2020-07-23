@@ -21,7 +21,7 @@ public class Produto implements Serializable {
     private Double precoCusto;
     @NumberFormat(pattern = "###,###.##")
     private Double preco;
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     public Categoria categoria;
     public Long getId() {
         return id;

@@ -22,12 +22,4 @@ public class ProdutoFacade extends AbstractFacade<Produto> {
         }
         return entityManager;
     }
-
-    public void remove(Produto entity){
-        EntityManager em = getEntityManager();
-        em.getTransaction().begin();
-        em.createQuery("DELETE FROM Produto p WHERE p.id = :id")
-                .setParameter("id", entity.getId()).executeUpdate();
-        em.getTransaction().commit();
-    }
 }

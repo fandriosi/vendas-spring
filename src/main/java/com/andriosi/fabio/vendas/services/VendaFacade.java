@@ -21,11 +21,4 @@ public class VendaFacade extends AbstractFacade<Venda> {
         }
         return entityManager;
     }
-    public void remove(Venda entity){
-        EntityManager em = getEntityManager();
-        em.getTransaction().begin();
-        em.createQuery("DELETE FROM Vendas v WHERE v.id=:id")
-                .setParameter("id", entity.getId()).executeUpdate();
-        em.getTransaction().commit();
-    }
 }

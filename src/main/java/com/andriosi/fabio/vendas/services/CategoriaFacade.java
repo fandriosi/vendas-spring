@@ -22,12 +22,4 @@ public class CategoriaFacade extends AbstractFacade<Categoria> {
         }
         return entityManager;
     }
-
-    public void remove(Categoria entity){
-        EntityManager em = getEntityManager();
-        em.getTransaction().begin();
-        em.createQuery("DELETE FROM Categoria c WHERE c.id=:id")
-                .setParameter("id", entity.getId()).executeUpdate();
-        em.getTransaction().commit();
-    }
 }

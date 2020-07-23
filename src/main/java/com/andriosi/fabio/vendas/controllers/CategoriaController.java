@@ -19,17 +19,17 @@ public class CategoriaController {
     public @ResponseBody ResponseEntity<List<Categoria>> findAll(){
         return new ResponseEntity<>(CategoriaFacade.findAll(), HttpStatus.OK );
     }
-    @PostMapping(value = "/categoria", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/categoria")
     public void addCliente(@RequestBody Categoria categoria){
         CategoriaFacade.create(categoria);
     }
     @ResponseStatus(value = HttpStatus.OK)
-    @DeleteMapping(value = "/Categoria" , consumes = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/Categoria")
     public void deleteClintes(@RequestBody Categoria categoria){
         CategoriaFacade.remove(categoria);
     }
 
-    @PutMapping(value = "/categoria" , consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/categoria")
     public void updateCliente(@RequestBody Categoria categoria){
         CategoriaFacade.edit(categoria);
     }
