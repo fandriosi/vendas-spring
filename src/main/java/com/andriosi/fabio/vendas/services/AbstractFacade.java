@@ -27,7 +27,7 @@ public abstract class AbstractFacade<T> {
         try{
             EntityManager em = getEntityManager();
             em.getTransaction().begin();
-            em.persist(entity);
+            em.merge(entity);
             em.getTransaction().commit();
         }catch (RollbackException exception){
             throw new EntityExistsException(exception);
@@ -49,7 +49,11 @@ public abstract class AbstractFacade<T> {
      * @param entity tabela do Banco de Dados mapeada por uma entidade.
      */
     public void remove(T entity) {
-        getEntityManager().remove(entity);
+        EntityManager em = getEntityManager();
+        em.getTransaction().begin();
+        Object obj = em.merge(entity);
+        getEntityManager().remove(obj);
+        em.getTransaction().commit();
     }
     /**
      * Método que implementa a busca de uma tabela do Banco de Dados mapeada por uma entidade.

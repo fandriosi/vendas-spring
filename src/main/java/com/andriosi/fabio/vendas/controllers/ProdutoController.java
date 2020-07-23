@@ -1,5 +1,6 @@
 package com.andriosi.fabio.vendas.controllers;
 
+import com.andriosi.fabio.vendas.entity.Categoria;
 import com.andriosi.fabio.vendas.entity.Produto;
 import com.andriosi.fabio.vendas.services.CategoriaFacade;
 import com.andriosi.fabio.vendas.services.ProdutoFacade;
@@ -19,7 +20,7 @@ public class ProdutoController {
     @Autowired
     private CategoriaFacade categoriaFacade;
     @GetMapping("/produtos")
-    public ResponseEntity<List<Produto>> findAll(){
+    public @ResponseBody ResponseEntity<List<Produto>> findAll(){
         return new ResponseEntity<>(produtoFacade.findAll(), HttpStatus.OK );
     }
     @GetMapping("/produto/{id}")
@@ -27,8 +28,9 @@ public class ProdutoController {
         return produtoFacade.find(id);
     }
     @PostMapping("/produto")
-    public void addCliente(@RequestBody Produto produto){
+    public @ResponseBody ResponseEntity<List<Produto>> addCliente(@RequestBody Produto produto){
         produtoFacade.create(produto);
+        return new ResponseEntity<>(produtoFacade.findAll(), HttpStatus.OK);
     }
 
     @DeleteMapping("/produto")
