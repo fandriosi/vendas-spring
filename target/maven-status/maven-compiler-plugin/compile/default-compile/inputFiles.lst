@@ -1,4 +1,5 @@
 /home/andriosi/IdeaProjects/vendas-spring/src/main/java/com/andriosi/fabio/vendas/controllers/VendaController.java
+/home/andriosi/IdeaProjects/vendas-spring/src/main/java/com/andriosi/fabio/vendas/services/ProdutoFacade.java
 /home/andriosi/IdeaProjects/vendas-spring/src/main/java/com/andriosi/fabio/vendas/main/WebConfig.java
 /home/andriosi/IdeaProjects/vendas-spring/src/main/java/com/andriosi/fabio/vendas/controllers/ClienteController.java
 /home/andriosi/IdeaProjects/vendas-spring/src/main/java/com/andriosi/fabio/vendas/services/CategoriaFacade.java
@@ -7,12 +8,13 @@
 /home/andriosi/IdeaProjects/vendas-spring/src/main/java/com/andriosi/fabio/vendas/services/AbstractFacade.java
 /home/andriosi/IdeaProjects/vendas-spring/src/main/java/com/andriosi/fabio/vendas/entity/Cliente.java
 /home/andriosi/IdeaProjects/vendas-spring/src/main/java/com/andriosi/fabio/vendas/entity/StringCapitalize.java
+/home/andriosi/IdeaProjects/vendas-spring/src/main/java/com/andriosi/fabio/vendas/entity/CategoriaJson.java
 /home/andriosi/IdeaProjects/vendas-spring/src/main/java/com/andriosi/fabio/vendas/entity/Estoque.java
-/home/andriosi/IdeaProjects/vendas-spring/src/main/java/com/andriosi/fabio/vendas/services/ProdutosFacade.java
 /home/andriosi/IdeaProjects/vendas-spring/src/main/java/com/andriosi/fabio/vendas/controllers/ProdutoController.java
-/home/andriosi/IdeaProjects/vendas-spring/src/main/java/com/andriosi/fabio/vendas/entity/Produtos.java
 /home/andriosi/IdeaProjects/vendas-spring/src/main/java/com/andriosi/fabio/vendas/services/ClienteFacade.java
+/home/andriosi/IdeaProjects/vendas-spring/src/main/java/com/andriosi/fabio/vendas/entity/ProdutosVendidos.java
 /home/andriosi/IdeaProjects/vendas-spring/src/main/java/com/andriosi/fabio/vendas/controllers/CategoriaController.java
+/home/andriosi/IdeaProjects/vendas-spring/src/main/java/com/andriosi/fabio/vendas/entity/Produto.java
 /home/andriosi/IdeaProjects/vendas-spring/src/main/java/com/andriosi/fabio/vendas/services/EstoqueFacade.java
 /home/andriosi/IdeaProjects/vendas-spring/src/main/java/com/andriosi/fabio/vendas/controllers/EstoqueController.java
 /home/andriosi/IdeaProjects/vendas-spring/src/main/java/com/andriosi/fabio/vendas/entity/Categoria.java
