@@ -16,21 +16,24 @@ public class EstoqueController {
     @Autowired
     private EstoqueFacade estoqueFacade;
     @GetMapping("/estoques")
-    public ResponseEntity<List<Estoque>> findAll(){
+    public @ResponseBody ResponseEntity<List<Estoque>> findAll(){
         return new ResponseEntity<>(estoqueFacade.findAll(), HttpStatus.OK );
     }
     @PostMapping("/estoque")
-    public void addCliente(@RequestBody Estoque estoque){
+    public @ResponseBody ResponseEntity<List<Estoque>> addCliente(@RequestBody Estoque estoque){
         estoqueFacade.create(estoque);
+        return new ResponseEntity<>(estoqueFacade.findAll(), HttpStatus.OK );
     }
 
     @DeleteMapping("/estoque")
-    public void deleteClintes(@RequestBody Estoque estoque){
+    public @ResponseBody ResponseEntity<List<Estoque>> deleteClintes(@RequestBody Estoque estoque){
         estoqueFacade.remove(estoque);
+        return new ResponseEntity<>(estoqueFacade.findAll(), HttpStatus.OK );
     }
 
     @PutMapping("/estoque")
-    public void updateCliente(@RequestBody Estoque estoque){
+    public @ResponseBody ResponseEntity<List<Estoque>> updateCliente(@RequestBody Estoque estoque){
         estoqueFacade.edit(estoque);
+        return new ResponseEntity<>(estoqueFacade.findAll(), HttpStatus.OK );
     }
 }

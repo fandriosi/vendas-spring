@@ -16,21 +16,24 @@ public class ClienteController {
     @Autowired
     private ClienteFacade clienteFacade;
     @GetMapping("/clientes")
-    public ResponseEntity<List<Cliente>> findAll(){
+    public @ResponseBody ResponseEntity<List<Cliente>> findAll(){
         return new ResponseEntity<>(clienteFacade.findAll(), HttpStatus.OK );
     }
     @PostMapping("/cliente")
-    public void addCliente(@RequestBody Cliente cliente){
+    public @ResponseBody ResponseEntity<List<Cliente>> addCliente(@RequestBody Cliente cliente){
         clienteFacade.create(cliente);
+        return new ResponseEntity<>(clienteFacade.findAll(), HttpStatus.OK );
     }
 
     @DeleteMapping("/cliente")
-    public void deleteClintes(@RequestBody Cliente cliente){
+    public @ResponseBody ResponseEntity<List<Cliente>> deleteClintes(@RequestBody Cliente cliente){
         clienteFacade.remove(cliente);
+        return new ResponseEntity<>(clienteFacade.findAll(), HttpStatus.OK );
     }
 
     @PutMapping("/cliente")
-    public void updateCliente(@RequestBody Cliente cliente){
+    public @ResponseBody ResponseEntity<List<Cliente>> updateCliente(@RequestBody Cliente cliente){
         clienteFacade.edit(cliente);
+        return new ResponseEntity<>(clienteFacade.findAll(), HttpStatus.OK );
     }
 }

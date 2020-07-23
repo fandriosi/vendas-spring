@@ -20,17 +20,19 @@ public class CategoriaController {
         return new ResponseEntity<>(CategoriaFacade.findAll(), HttpStatus.OK );
     }
     @PostMapping(value = "/categoria")
-    public void addCliente(@RequestBody Categoria categoria){
+    public @ResponseBody ResponseEntity<List<Categoria>>  addCliente(@RequestBody Categoria categoria){
         CategoriaFacade.create(categoria);
+        return new ResponseEntity<>(CategoriaFacade.findAll(), HttpStatus.OK );
     }
-    @ResponseStatus(value = HttpStatus.OK)
     @DeleteMapping(value = "/Categoria")
-    public void deleteClintes(@RequestBody Categoria categoria){
+    public @ResponseBody ResponseEntity<List<Categoria>>  deleteClintes(@RequestBody Categoria categoria){
         CategoriaFacade.remove(categoria);
+        return new ResponseEntity<>(CategoriaFacade.findAll(), HttpStatus.OK );
     }
 
     @PutMapping(value = "/categoria")
-    public void updateCliente(@RequestBody Categoria categoria){
+    public @ResponseBody ResponseEntity<List<Categoria>>  updateCliente(@RequestBody Categoria categoria){
         CategoriaFacade.edit(categoria);
+        return new ResponseEntity<>(CategoriaFacade.findAll(), HttpStatus.OK );
     }
 }

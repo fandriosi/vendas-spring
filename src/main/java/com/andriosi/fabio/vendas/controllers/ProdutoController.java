@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.parser.Entity;
 import javax.websocket.server.PathParam;
 import java.util.List;
 
@@ -34,12 +35,14 @@ public class ProdutoController {
     }
 
     @DeleteMapping("/produto")
-    public void deleteClintes(@RequestBody Produto produto){
+    public @ResponseBody ResponseEntity<List<Produto>> deleteClintes(@RequestBody Produto produto){
         produtoFacade.remove(produto);
+        return new ResponseEntity<>(produtoFacade.findAll(), HttpStatus.OK);
     }
 
     @PutMapping("/produto")
-    public void updateCliente(@RequestBody Produto produto){
+    public @ResponseBody ResponseEntity<List<Produto>>  updateCliente(@RequestBody Produto produto){
         produtoFacade.edit(produto);
+        return new ResponseEntity<>(produtoFacade.findAll(), HttpStatus.OK);
     }
 }
