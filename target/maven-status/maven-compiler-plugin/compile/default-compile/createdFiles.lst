@@ -7,7 +7,6 @@ com/andriosi/fabio/vendas/controllers/CategoriaController.class
 com/andriosi/fabio/vendas/services/CategoriaFacade.class
 com/andriosi/fabio/vendas/controllers/ProdutoController.class
 com/andriosi/fabio/vendas/entity/Venda.class
-com/andriosi/fabio/vendas/entity/CategoriaJson.class
 com/andriosi/fabio/vendas/entity/ProdutosVendidos.class
 com/andriosi/fabio/vendas/main/Main.class
 com/andriosi/fabio/vendas/entity/Cliente.class

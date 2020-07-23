@@ -6,6 +6,9 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ProdutoFacade extends AbstractFacade<Produto> {
@@ -21,5 +24,10 @@ public class ProdutoFacade extends AbstractFacade<Produto> {
             entityManager = emf.createEntityManager();
         }
         return entityManager;
+    }
+    public List<Produto> produtoByEstoque(){
+        Query query = getEntityManager().
+                createQuery("SELECT p FROM Produto p WHERE NOT EXISTS (SELECT p.id FROM Estoque e WHERE  e.produto.id = p.id )");
+        return query.getResultList();
     }
 }

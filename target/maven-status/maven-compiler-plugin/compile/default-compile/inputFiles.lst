@@ -8,7 +8,6 @@
 /home/andriosi/IdeaProjects/vendas-spring/src/main/java/com/andriosi/fabio/vendas/services/AbstractFacade.java
 /home/andriosi/IdeaProjects/vendas-spring/src/main/java/com/andriosi/fabio/vendas/entity/Cliente.java
 /home/andriosi/IdeaProjects/vendas-spring/src/main/java/com/andriosi/fabio/vendas/entity/StringCapitalize.java
-/home/andriosi/IdeaProjects/vendas-spring/src/main/java/com/andriosi/fabio/vendas/entity/CategoriaJson.java
 /home/andriosi/IdeaProjects/vendas-spring/src/main/java/com/andriosi/fabio/vendas/entity/Estoque.java
 /home/andriosi/IdeaProjects/vendas-spring/src/main/java/com/andriosi/fabio/vendas/controllers/ProdutoController.java
 /home/andriosi/IdeaProjects/vendas-spring/src/main/java/com/andriosi/fabio/vendas/services/ClienteFacade.java

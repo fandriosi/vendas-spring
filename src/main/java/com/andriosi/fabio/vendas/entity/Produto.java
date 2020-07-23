@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
+
 @Entity
 public class Produto implements Serializable {
     private static final long serialVersionUID = 456123789L;

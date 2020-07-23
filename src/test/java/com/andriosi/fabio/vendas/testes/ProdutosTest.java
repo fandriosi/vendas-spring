@@ -8,15 +8,17 @@ import org.junit.Test;
 
 import javax.persistence.EntityExistsException;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 public class ProdutosTest {
-    //@Test
+    @Test
     public void ProdutosTesteA() throws EntityExistsException {
         Produto produto = new Produto();
-        produto.setDescricao("blusa pink de colarinho");
-        produto.setCodigoBarra(12898);
+        produto.setDescricao("blusa pink de com colarinho");
+        produto.setCodigoBarra(14598);
         produto.setPrecoCusto(23.90);
         produto.setPreco(produto.getPrecoCusto()* 2);
         Categoria categoria = new CategoriaFacade().find(2L);
@@ -45,4 +47,12 @@ public class ProdutosTest {
         Produto prod = new ProdutoFacade().find(id);
         assertNull("The car should be null", prod);
     }
+    @Test
+    public void findAllProdutos() {
+        List<Produto> produtoList = new ProdutoFacade().produtoByEstoque();
+        for (Produto item : produtoList){
+            System.out.println(item.getDescricao());
+        }
+    }
+
 }

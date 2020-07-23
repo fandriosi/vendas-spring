@@ -1,6 +1,5 @@
 package com.andriosi.fabio.vendas.controllers;
 
-import com.andriosi.fabio.vendas.entity.Categoria;
 import com.andriosi.fabio.vendas.entity.Produto;
 import com.andriosi.fabio.vendas.services.CategoriaFacade;
 import com.andriosi.fabio.vendas.services.ProdutoFacade;
@@ -9,8 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.parser.Entity;
-import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
@@ -24,9 +21,9 @@ public class ProdutoController {
     public @ResponseBody ResponseEntity<List<Produto>> findAll(){
         return new ResponseEntity<>(produtoFacade.findAll(), HttpStatus.OK );
     }
-    @GetMapping("/produto/{id}")
-    public Produto getById(@PathVariable Long id){
-        return produtoFacade.find(id);
+    @GetMapping("/produtosestoque")
+    public @ResponseBody ResponseEntity<List<Produto>> produtosByEstoque(){
+        return new ResponseEntity<>(produtoFacade.produtoByEstoque(), HttpStatus.OK);
     }
     @PostMapping("/produto")
     public @ResponseBody ResponseEntity<List<Produto>> addCliente(@RequestBody Produto produto){
