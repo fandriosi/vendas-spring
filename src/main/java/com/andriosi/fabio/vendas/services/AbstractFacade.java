@@ -32,7 +32,6 @@ public abstract class AbstractFacade<T> {
         }catch (RollbackException exception){
             throw new EntityExistsException(exception);
         }
-
     }
     /**
      * Método que implementa o atualização de uma tabela do Banco de Dados mapeada por uma entidade.

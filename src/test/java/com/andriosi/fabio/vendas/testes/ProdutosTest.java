@@ -14,16 +14,17 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 public class ProdutosTest {
-    @Test
+    //@Test
     public void ProdutosTesteA() throws EntityExistsException {
         Produto produto = new Produto();
-        produto.setDescricao("blusa pink de com colarinho");
-        produto.setCodigoBarra(14598);
+        produto.setDescricao("Produto para estoque");
+        produto.setCodigoBarra(148);
         produto.setPrecoCusto(23.90);
         produto.setPreco(produto.getPrecoCusto()* 2);
         Categoria categoria = new CategoriaFacade().find(2L);
+        produto.setQuantidade(3);
         produto.setCategoria(categoria);
-        new ProdutoFacade().create(produto);
+        new ProdutoFacade().edit(produto);
     }
      //@Test
     public void clienteTesteB() {
@@ -47,9 +48,9 @@ public class ProdutosTest {
         Produto prod = new ProdutoFacade().find(id);
         assertNull("The car should be null", prod);
     }
-    @Test
+   // @Test
     public void findAllProdutos() {
-        List<Produto> produtoList = new ProdutoFacade().produtoByEstoque();
+        List<Produto> produtoList = new ProdutoFacade().produtoFidByDescricao("Blusa Azul");
         for (Produto item : produtoList){
             System.out.println(item.getDescricao());
         }

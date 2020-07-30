@@ -1,5 +1,6 @@
 package com.andriosi.fabio.vendas.controllers;
 
+import com.andriosi.fabio.vendas.entity.TipoPagamento;
 import com.andriosi.fabio.vendas.entity.Venda;
 import com.andriosi.fabio.vendas.services.VendaFacade;
 import org.springframework.beans.factory.annotation.Autowired;

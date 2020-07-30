@@ -24,6 +24,7 @@ public class Produto implements Serializable {
     private Double preco;
     @OneToOne(fetch = FetchType.EAGER)
     public Categoria categoria;
+    private Integer quantidade;
     public Long getId() {
         return id;
     }
@@ -70,5 +71,13 @@ public class Produto implements Serializable {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
+    }
+
+    public Integer getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(Integer quantidade) {
+        this.quantidade = quantidade;
     }
 }

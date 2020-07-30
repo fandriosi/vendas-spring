@@ -9,7 +9,7 @@ import org.junit.Test;
 import java.util.*;
 
 public class VendaTest {
-    //@Test
+    @Test
     public void VendaTestA(){
         Produto produto = new ProdutoFacade().findAll().get(0);
         Produto produto1 = new ProdutoFacade().findAll().get(1);

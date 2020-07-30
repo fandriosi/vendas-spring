@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.List;
 
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"id","clientes_id","dataCompra","dataRecebimento"}))
 public class Venda implements Serializable {
     private static final long serialVersionUID = 123456789L;
     @Id
@@ -14,7 +15,7 @@ public class Venda implements Serializable {
     private Long id;
     @OneToOne
     private Cliente clientes;
-    @OneToMany(fetch= FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch= FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.MERGE})
     @JoinColumn(name = "fk_produtosvendidos")
     private List<ProdutosVendidos> produtosVendidos = new ArrayList<>();
     @Temporal(TemporalType.DATE)

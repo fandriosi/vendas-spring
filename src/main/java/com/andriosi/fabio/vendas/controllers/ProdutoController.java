@@ -2,12 +2,15 @@ package com.andriosi.fabio.vendas.controllers;
 
 import com.andriosi.fabio.vendas.entity.Produto;
 import com.andriosi.fabio.vendas.services.CategoriaFacade;
+import com.andriosi.fabio.vendas.services.EstoqueFacade;
 import com.andriosi.fabio.vendas.services.ProdutoFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityExistsException;
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
@@ -16,18 +19,23 @@ public class ProdutoController {
     @Autowired
     private ProdutoFacade produtoFacade;
     @Autowired
-    private CategoriaFacade categoriaFacade;
+    private EstoqueFacade estoqueFacade;
     @GetMapping("/produtos")
     public @ResponseBody ResponseEntity<List<Produto>> findAll(){
         return new ResponseEntity<>(produtoFacade.findAll(), HttpStatus.OK );
     }
-    @GetMapping("/produtosestoque")
-    public @ResponseBody ResponseEntity<List<Produto>> produtosByEstoque(){
-        return new ResponseEntity<>(produtoFacade.produtoByEstoque(), HttpStatus.OK);
+    @PostMapping("/produtosFindByDescricao")
+    public @ResponseBody ResponseEntity<List<Produto>> produtosByEstoque(@RequestBody Produto produto){
+        return new ResponseEntity<>(produtoFacade.produtoFidByDescricao(produto.getDescricao()), HttpStatus.OK);
     }
     @PostMapping("/produto")
     public @ResponseBody ResponseEntity<List<Produto>> addCliente(@RequestBody Produto produto){
-        produtoFacade.create(produto);
+        try{
+            produtoFacade.create(produto);
+            return new ResponseEntity<>(produtoFacade.findAll(), HttpStatus.OK);
+        }catch (EntityExistsException ex){
+            System.out.println(ex.fillInStackTrace());
+        }
         return new ResponseEntity<>(produtoFacade.findAll(), HttpStatus.OK);
     }
 
@@ -39,7 +47,12 @@ public class ProdutoController {
 
     @PutMapping("/produto")
     public @ResponseBody ResponseEntity<List<Produto>>  updateCliente(@RequestBody Produto produto){
-        produtoFacade.edit(produto);
+        try{
+            produtoFacade.create(produto);
+            return new ResponseEntity<>(produtoFacade.findAll(), HttpStatus.OK);
+        }catch (EntityExistsException ex){
+            System.out.println(ex.fillInStackTrace());
+        }
         return new ResponseEntity<>(produtoFacade.findAll(), HttpStatus.OK);
     }
 }

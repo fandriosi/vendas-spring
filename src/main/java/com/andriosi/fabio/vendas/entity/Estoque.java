@@ -26,6 +26,7 @@ public class Estoque implements Serializable {
         return produto;
     }
 
+
     public void setProduto(Produto produto) {
         this.produto = produto;
     }
