@@ -44,6 +44,21 @@ public abstract class AbstractFacade<T> {
         em.getTransaction().commit();
     }
     /**
+     * Método que implementa o atualização de uma tabela do Banco de Dados mapeada por uma entidade.
+     * @param entity tabela do Banco de Dados mapeada por uma entidade.
+     */
+    public T merge(T entity) throws EntityExistsException {
+        try {
+            EntityManager em = getEntityManager();
+            em.getTransaction().begin();
+            T merge = em.merge(entity);
+            em.getTransaction().commit();
+            return merge;
+        } catch (RollbackException exception) {
+            throw new EntityExistsException(exception);
+        }
+    }
+    /**
      * Método que implementa a exclusão de uma tabela do Banco de Dados mapeada por uma entidade.
      * @param entity tabela do Banco de Dados mapeada por uma entidade.
      */
