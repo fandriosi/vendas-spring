@@ -1,7 +1,10 @@
 package com.andriosi.fabio.vendas.entity;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -18,10 +21,12 @@ public class Venda implements Serializable {
     @Temporal(TemporalType.DATE)
     private Calendar dataRecebimento;
     private TipoPagamento tipoPagamento;
-    private Double valorPago;
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @Column(precision = 10, scale = 2, nullable = true)
+    @Type(type = "big_decimal")
+    private BigDecimal valorPago;
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Cliente clientes;
-    @OneToMany(fetch= FetchType.LAZY, cascade =CascadeType.ALL  )
+    @OneToMany(fetch= FetchType.EAGER, cascade =CascadeType.ALL  )
     @JoinColumn(name = "fk_produtosvendidos")
     private List<ProdutosVendidos> produtosVendidos = new ArrayList<>();
 
@@ -73,11 +78,11 @@ public class Venda implements Serializable {
         this.tipoPagamento = tipoPagamento;
     }
 
-    public Double getValorPago() {
+    public BigDecimal getValorPago() {
         return valorPago;
     }
 
-    public void setValorPago(Double valorPago) {
+    public void setValorPago(BigDecimal  valorPago) {
         this.valorPago = valorPago;
     }
 }

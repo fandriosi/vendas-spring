@@ -1,5 +1,6 @@
 package com.andriosi.fabio.vendas.entity;
 
+import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.*;
@@ -18,10 +19,12 @@ public class Produto implements Serializable {
     private Integer codigoBarra;
     @Column(unique = true)
     private  String descricao;
-    @NumberFormat(pattern = "###,###.##")
-    private Double precoCusto;
-    @NumberFormat(pattern = "###,###.##")
-    private Double preco;
+    @Column(precision = 10, scale = 2)
+    @Type(type = "big_decimal")
+    private BigDecimal precoCusto;
+    @Column(precision = 10, scale = 2)
+    @Type(type = "big_decimal")
+    private BigDecimal preco;
     @OneToOne(fetch = FetchType.EAGER)
     public Categoria categoria;
     private Integer quantidade;
@@ -49,19 +52,19 @@ public class Produto implements Serializable {
         this.codigoBarra = codigoBarra;
     }
 
-    public void setPrecoCusto(Double precoCusto) {
+    public void setPrecoCusto(BigDecimal precoCusto) {
         this.precoCusto = precoCusto;
     }
 
-    public Double getPrecoCusto() {
+    public BigDecimal getPrecoCusto() {
         return precoCusto;
     }
 
-    public Double getPreco() {
+    public BigDecimal getPreco() {
         return preco;
     }
 
-    public void setPreco(Double preco) {
+    public void setPreco(BigDecimal preco) {
         this.preco = preco;
     }
 

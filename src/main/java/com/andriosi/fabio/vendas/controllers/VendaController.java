@@ -29,6 +29,13 @@ public class  VendaController {
     @PostMapping("/venda")
     public @ResponseBody ResponseEntity<List<ProdutosVendidos>> cresteVenda(@RequestBody Venda venda) {
         try {
+            Cliente cliente = clienteFacade.find(venda.getClientes().getId());
+            if(venda.getProdutosVendidos().get(0).getProduto().getId() > 0) {
+                Produto produto = produtoFacade.find(venda.getProdutosVendidos().get(0).getProduto().getId());
+                produto.setQuantidade(produto.getQuantidade() - venda.getProdutosVendidos().get(0).getQuantidade());
+                produtoFacade.edit(produto);
+            }
+            venda.setClientes(cliente);
             Venda v = vendaFacade.merge(venda);
             return new ResponseEntity<>(vendaFacade.find(v.getId()).getProdutosVendidos(), HttpStatus.OK);
         } catch (EntityExistsException ex) {

@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import javax.persistence.EntityExistsException;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -19,8 +20,8 @@ public class ProdutosTest {
         Produto produto = new Produto();
         produto.setDescricao("Produto para estoque");
         produto.setCodigoBarra(148);
-        produto.setPrecoCusto(23.90);
-        produto.setPreco(produto.getPrecoCusto()* 2);
+        produto.setPrecoCusto(BigDecimal.valueOf(78.90));
+        produto.setPreco(produto.getPrecoCusto());
         Categoria categoria = new CategoriaFacade().find(2L);
         produto.setQuantidade(3);
         produto.setCategoria(categoria);

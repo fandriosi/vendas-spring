@@ -9,7 +9,6 @@ public class ProdutosVendidos {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @NotNull
     private Integer quantidade;
     @OneToOne
     private Produto produto;

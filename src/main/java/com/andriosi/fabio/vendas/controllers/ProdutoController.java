@@ -28,6 +28,10 @@ public class ProdutoController {
     public @ResponseBody ResponseEntity<List<Produto>> produtosByEstoque(@RequestBody Produto produto){
         return new ResponseEntity<>(produtoFacade.produtoFidByDescricao(produto.getDescricao()), HttpStatus.OK);
     }
+    @GetMapping("/produto/{id}")
+    public @ResponseBody ResponseEntity<Produto> produtosById(@PathVariable("id") Long id){
+        return new ResponseEntity<>(produtoFacade.find(id), HttpStatus.OK);
+    }
     @PostMapping("/produto")
     public @ResponseBody ResponseEntity<List<Produto>> addCliente(@RequestBody Produto produto){
         try{
