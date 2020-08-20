@@ -9,8 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityExistsException;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -27,29 +25,25 @@ public class  VendaController {
         return new ResponseEntity<>(vendaFacade.findAll(), HttpStatus.OK );
     }
     @PostMapping("/venda")
-    public @ResponseBody ResponseEntity<List<ProdutosVendidos>> cresteVenda(@RequestBody Venda venda) {
-        try {
-            Cliente cliente = clienteFacade.find(venda.getClientes().getId());
-            if(venda.getProdutosVendidos().get(0).getProduto().getId() > 0) {
-                Produto produto = produtoFacade.find(venda.getProdutosVendidos().get(0).getProduto().getId());
-                produto.setQuantidade(produto.getQuantidade() - venda.getProdutosVendidos().get(0).getQuantidade());
-                produtoFacade.edit(produto);
-            }
-            venda.setClientes(cliente);
-            Venda v = vendaFacade.merge(venda);
-            return new ResponseEntity<>(vendaFacade.find(v.getId()).getProdutosVendidos(), HttpStatus.OK);
-        } catch (EntityExistsException ex) {
-            System.out.println(ex.fillInStackTrace());
-        }
-        return new ResponseEntity<>(null, HttpStatus.OK);
+    public @ResponseBody ResponseEntity<List<ProdutosVendidos>> creteVenda(@RequestBody Venda venda) {
+        venda.setClientes(clienteFacade.find(venda.getClientes().getId()));
+        Venda v = vendaFacade.merge(venda);
+        List<ProdutosVendidos> list = vendaFacade.find(v.getId()).getProdutosVendidos();
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
     @DeleteMapping("/venda")
-    public void deleteClintes(@RequestBody Venda venda){
+    public ResponseEntity<List<ProdutosVendidos>> deleteVenda(@RequestBody Venda venda){
         vendaFacade.remove(venda);
+        return new ResponseEntity<>(vendaFacade.find(venda.getId()).getProdutosVendidos(), HttpStatus.OK);
     }
 
     @PutMapping("/venda")
-    public void updateCliente(@RequestBody Venda venda){
+    public ResponseEntity<List<ProdutosVendidos>> updateVenda(@RequestBody Venda venda){
         vendaFacade.edit(venda);
+        List<ProdutosVendidos> list =vendaFacade.find(venda.getId()).getProdutosVendidos();
+        list.stream().forEach(item ->{
+            item.setCodigoVenda(venda.getId());
+        });
+        return new ResponseEntity<>(vendaFacade.find(venda.getId()).getProdutosVendidos(), HttpStatus.OK);
     }
 }

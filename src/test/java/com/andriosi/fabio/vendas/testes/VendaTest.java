@@ -29,7 +29,7 @@ public class VendaTest {
         venda.setValorPago(BigDecimal.valueOf(78.00));
         venda.getProdutosVendidos().add(pVendidos);
         venda.getProdutosVendidos().add(pVendidos1);
-        venda.setDataCompra(new GregorianCalendar(2020,8,15));
+        venda.setDataCompra(new GregorianCalendar(2020,8,26));
         venda.setDataRecebimento(new GregorianCalendar(2020,8,15));
         new VendaFacade().create(venda);
     }

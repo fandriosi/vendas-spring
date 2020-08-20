@@ -1,7 +1,6 @@
 package com.andriosi.fabio.vendas.entity;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Entity
 public class ProdutosVendidos {
@@ -12,6 +11,8 @@ public class ProdutosVendidos {
     private Integer quantidade;
     @OneToOne
     private Produto produto;
+    @Transient
+    private Long codigoVenda;
 
     public Long getId() {
         return id;
@@ -37,4 +38,11 @@ public class ProdutosVendidos {
         this.produto = produto;
     }
 
-   }
+    public Long getCodigoVenda() {
+        return codigoVenda;
+    }
+
+    public void setCodigoVenda(Long codigoVenda) {
+        this.codigoVenda = codigoVenda;
+    }
+}
