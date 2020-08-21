@@ -24,6 +24,9 @@ public class Venda implements Serializable {
     @Column(precision = 10, scale = 2, nullable = true)
     @Type(type = "big_decimal")
     private BigDecimal valorPago;
+    @Column(precision = 10, scale = 2)
+    @Type(type = "big_decimal")
+    private BigDecimal valorTotal;
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Cliente clientes;
     @OneToMany(fetch= FetchType.EAGER, cascade =CascadeType.ALL  )
@@ -84,5 +87,13 @@ public class Venda implements Serializable {
 
     public void setValorPago(BigDecimal  valorPago) {
         this.valorPago = valorPago;
+    }
+
+    public BigDecimal getValorTotal() {
+        return valorTotal;
+    }
+
+    public void setValorTotal(BigDecimal valorTotal) {
+        this.valorTotal = valorTotal;
     }
 }
