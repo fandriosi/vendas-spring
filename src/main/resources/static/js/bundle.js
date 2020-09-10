@@ -36368,7 +36368,6 @@
               headers: {
                   "Content-Type": "application/json",
                   // "Content-Type": "application/x-www-form-urlencoded",
-                  "Authorization": `Basic ${window.btoa("Bemodas"+":"+"$#Bmodas43")}`
               },
               redirect: "follow", // manual, *follow, error
               referrer: "no-referrer", // no-referrer, *client
@@ -36385,7 +36384,6 @@
               headers: {
                   "Content-Type": "application/json",
                   // "Content-Type": "application/x-www-form-urlencoded",
-                  "Authorization": `Basic ${window.btoa("Bemodas"+":"+"$#Bmodas43")}`
               },
               redirect: "follow", // manual, *follow, error
               referrer: "no-referrer", // no-referrer, *client
@@ -36402,7 +36400,6 @@
               headers: {
                   "Content-Type": "application/json",
                   // "Content-Type": "application/x-www-form-urlencoded",
-                  "Authorization": `Basic ${window.btoa("Bemodas"+":"+"$#Bmodas43")}`
               },
               redirect: "follow", // manual, *follow, error
               referrer: "no-referrer", // no-referrer, *client
@@ -36413,7 +36410,6 @@
           const request = await fetch(url, {headers:{
               "Content-Type": "application/json",
               // "Content-Type": "application/x-www-form-urlencoded",
-              "Authorization": `Basic ${window.btoa("Bemodas"+":"+"$#Bmodas43")}`
           }});
           const payload = await request.json();
           return payload;
@@ -36428,7 +36424,6 @@
               headers: {
                   "Content-Type": "application/json",
                   // "Content-Type": "application/x-www-form-urlencoded",
-                  "Authorization": `Basic ${window.btoa("Bemodas"+":"+"$#Bmodas43")}`
               },
               redirect: "follow", // manual, *follow, error
               referrer: "no-referrer", // no-referrer, *clienTE          
@@ -36523,9 +36518,9 @@
           this.produtosVendidos = new Array();        
           this.service = new Services();     
           this.storage = new Storager('produtos');  
-          this.PRODUTO_URL = "resources/produtos";
-          this.CLIENTE_URL = "resources/clientes";
-          this.URL = "resources/vendas";
+          this.PRODUTO_URL = "http://localhost:8080/resources/produtos";
+          this.CLIENTE_URL = "http://localhost:8080/resources/clientes";
+          this.URL = "http://localhost:8080/resources/vendas";
       }
       connectedCallback(){
           this.callServer();
@@ -45049,7 +45044,7 @@
           super();
           this.storage = new Storager('clientes');
           this.service = new Services();  
-          this.URL = "resources/clientes";
+          this.URL = "http://localhost:8080/resources/clientes";
       }
       connectedCallback(){
           this.createTemplate(); 
@@ -50216,7 +50211,7 @@
       constructor(){
           super();
           this.service = new Services();
-          this.URL = "resources/produtos";
+          this.URL = "http://localhost:8080/resources/produtos";
       }
 
       connectedCallback(){
@@ -50474,7 +50469,7 @@
       constructor(){
           super();
           this.service = new Services();      
-          this.URL = "resources/categorias";
+          this.URL = "http://localhost:8080/resources/categorias";
       }
       connectedCallback(){
           this.createTemplate(); 
