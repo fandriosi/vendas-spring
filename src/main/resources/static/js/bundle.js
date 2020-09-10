@@ -36518,9 +36518,9 @@
           this.produtosVendidos = new Array();        
           this.service = new Services();     
           this.storage = new Storager('produtos');  
-          this.PRODUTO_URL = "http://localhost:8080/resources/produtos";
-          this.CLIENTE_URL = "http://localhost:8080/resources/clientes";
-          this.URL = "http://localhost:8080/resources/vendas";
+          this.PRODUTO_URL = "resources/produtos";
+          this.CLIENTE_URL = "resources/clientes";
+          this.URL = "resources/vendas";
       }
       connectedCallback(){
           this.callServer();
@@ -36636,7 +36636,7 @@
       findByDescricao(){
           let descricaoTextfield = this.querySelector('#findDescricao');    
           let data = JSON.stringify({descricao: descricaoTextfield.value});
-          this.service.getServices("http://localhost:8080/resources/produtosFindByDescricao/"+this.querySelector('#findDescricao').value)
+          this.service.getServices("resources/produtosFindByDescricao/"+this.querySelector('#findDescricao').value)
           .then((json) =>{ 
               this.querySelector('#produtos').clearCache();    
               this.querySelector('#produtos').dataProvider = (params, callback) =>{
@@ -45044,7 +45044,7 @@
           super();
           this.storage = new Storager('clientes');
           this.service = new Services();  
-          this.URL = "http://localhost:8080/resources/clientes";
+          this.URL = "resources/clientes";
       }
       connectedCallback(){
           this.createTemplate(); 
@@ -50211,7 +50211,7 @@
       constructor(){
           super();
           this.service = new Services();
-          this.URL = "http://localhost:8080/resources/produtos";
+          this.URL = "resources/produtos";
       }
 
       connectedCallback(){
@@ -50380,7 +50380,7 @@
       findByDescricao(){
           let descricaoTextfield = this.querySelector('#findDescricao');    
           let data = JSON.stringify({descricao: descricaoTextfield.value});
-          this.service.postServices("http://localhost:8080/resources/produtosFindByDescricao", data)
+          this.service.postServices("resources/produtosFindByDescricao", data)
           .then(response =>{ 
               if(response.ok){
                   this.querySelector('vaadin-grid').dataProvider = (params, callback) =>{
@@ -50444,7 +50444,7 @@
           //    });
          // });
           this.querySelector('vaadin-combo-box').dataProvider = (params, callback)=>{
-              this.service.getServicesJson("http://localhost:8080/resources/categorias").then(
+              this.service.getServicesJson("resources/categorias").then(
                   json => callback(json, json.length));
           };
       }
@@ -50469,7 +50469,7 @@
       constructor(){
           super();
           this.service = new Services();      
-          this.URL = "http://localhost:8080/resources/categorias";
+          this.URL = "resources/categorias";
       }
       connectedCallback(){
           this.createTemplate(); 
