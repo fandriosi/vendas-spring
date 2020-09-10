@@ -1,62 +1,57 @@
 package com.andriosi.fabio.vendas.controllers;
 
+import com.andriosi.fabio.vendas.entity.Cliente;
 import com.andriosi.fabio.vendas.entity.Produto;
-import com.andriosi.fabio.vendas.services.CategoriaFacade;
-import com.andriosi.fabio.vendas.services.EstoqueFacade;
-import com.andriosi.fabio.vendas.services.ProdutoFacade;
+import com.andriosi.fabio.vendas.services.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityExistsException;
-import javax.websocket.server.PathParam;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("resources")
 public class ProdutoController {
     @Autowired
-    private ProdutoFacade produtoFacade;
-    @Autowired
-    private EstoqueFacade estoqueFacade;
+    private ProdutoRepository repository;
     @GetMapping("/produtos")
     public @ResponseBody ResponseEntity<List<Produto>> findAll(){
-        return new ResponseEntity<>(produtoFacade.findAll(), HttpStatus.OK );
+        List<Produto> list = new ArrayList<>();
+        repository.findAll().forEach(list::add);
+        return new ResponseEntity<>(list, HttpStatus.OK );
     }
-    @PostMapping("/produtosFindByDescricao")
-    public @ResponseBody ResponseEntity<List<Produto>> produtosByEstoque(@RequestBody Produto produto){
-        return new ResponseEntity<>(produtoFacade.produtoFidByDescricao(produto.getDescricao()), HttpStatus.OK);
+    @GetMapping("/produtosFindByDescricao/{descricao}")
+    public @ResponseBody ResponseEntity<List<Produto>> produtosByDescricao(@PathVariable("descricao") String descricao){
+        return new ResponseEntity<>(repository.findByDescricao(descricao), HttpStatus.OK);
     }
-    @GetMapping("/produto/{id}")
+    @GetMapping("/produtos/{id}")
     public @ResponseBody ResponseEntity<Produto> produtosById(@PathVariable("id") Long id){
-        return new ResponseEntity<>(produtoFacade.find(id), HttpStatus.OK);
+        return new ResponseEntity<>(repository.findById(id).get(), HttpStatus.OK);
     }
-    @PostMapping("/produto")
-    public @ResponseBody ResponseEntity<List<Produto>> addCliente(@RequestBody Produto produto){
-        try{
-            produtoFacade.create(produto);
-            return new ResponseEntity<>(produtoFacade.findAll(), HttpStatus.OK);
-        }catch (EntityExistsException ex){
-            System.out.println(ex.fillInStackTrace());
-        }
-        return new ResponseEntity<>(produtoFacade.findAll(), HttpStatus.OK);
+    @PostMapping("/produtos")
+    public @ResponseBody ResponseEntity<List<Produto>> addProduto(@RequestBody Produto produto){
+        repository.save(produto);
+        List<Produto> list = new ArrayList<>();
+        repository.findAll().forEach(list::add);
+        return new ResponseEntity<>(list, HttpStatus.OK );
     }
 
-    @DeleteMapping("/produto")
-    public @ResponseBody ResponseEntity<List<Produto>> deleteClintes(@RequestBody Produto produto){
-        produtoFacade.remove(produto);
-        return new ResponseEntity<>(produtoFacade.findAll(), HttpStatus.OK);
+    @DeleteMapping("/produtos")
+    public @ResponseBody ResponseEntity<List<Produto>> deleteProduto(@RequestBody Produto produto){
+        repository.delete(produto);
+        List<Produto> list = new ArrayList<>();
+        repository.findAll().forEach(list::add);
+        return new ResponseEntity<>(list, HttpStatus.OK );
     }
 
-    @PutMapping("/produto")
-    public @ResponseBody ResponseEntity<List<Produto>>  updateCliente(@RequestBody Produto produto){
-        try{
-            produtoFacade.create(produto);
-            return new ResponseEntity<>(produtoFacade.findAll(), HttpStatus.OK);
-        }catch (EntityExistsException ex){
-            System.out.println(ex.fillInStackTrace());
-        }
-        return new ResponseEntity<>(produtoFacade.findAll(), HttpStatus.OK);
+    @PutMapping("/produtos")
+    public @ResponseBody ResponseEntity<List<Produto>>  updateProduto(@RequestBody Produto produto){
+        repository.save(produto);
+        List<Produto> list = new ArrayList<>();
+        repository.findAll().forEach(list::add);
+        return new ResponseEntity<>(list, HttpStatus.OK );
     }
 }
