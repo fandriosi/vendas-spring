@@ -44,6 +44,7 @@ public class  VendaController {
     public @ResponseBody ResponseEntity<List<Venda>> updateVenda(@RequestBody Venda venda) {
         Venda v = repository.findById(venda.getId()).get();
         v.setValorPago(venda.getValorPago());
+        v.setTipoPagamento(venda.getTipoPagamento());
         repository.save(v);
         List<Venda> list = new ArrayList<>();
         repository.findAll().forEach(list::add);

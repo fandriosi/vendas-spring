@@ -50529,6 +50529,7 @@
           this.callServer();
           this.loadingGrid();    
           this.selectItemsEventListener();
+          this.attachComboBoxPagamentos();
       }
       callServer(){
           const templete = html$1 `
@@ -50540,6 +50541,7 @@
             <vaadin-text-field disabled="true" label="Data Pagamento" id="dataPagamento" ></vaadin-text-field>
             <vaadin-number-field label="Valor Pago" maxlength="8" placeholder="Valor Pago" id="valorPago"><div slot="prefix">R$</div></vaadin-number-field>
             <vaadin-text-field disabled="true" label="Cliente" id="clientes"></vaadin-text-field>       
+            <vaadin-combo-box required label="Tipo de Pagamento" item-label-path="descricao" item-value-path="id" id="tipoPagamento" error-message="O Tipo de Pagamento não pode ser nulo!"></vaadin-combo-box>
             <vaadin-number-field label="Valor Total" maxlength="8" placeholder="Valor Total" id="total" disabled="true"><div slot="prefix">R$</div></vaadin-number-field> 
             <vaadin-text-field disabled="true" label="Tipo de Pagamento" id="tipoPagamento"></vaadin-text-field>
             <vaadin-form-item colspan="2">
@@ -50580,7 +50582,7 @@
       salvar(){
           if(this.querySelector('#id').value !== ''){
               this.service.putServices(this.URL, JSON.stringify({id: this.querySelector('#id').value,
-                  valorPago: this.querySelector('#valorPago').value}))
+                  valorPago: this.querySelector('#valorPago').value, tipoPagamento: this.querySelector('#tipoPagamento').value}))
               .then(response =>{
                   if(response.ok){
                       this.querySelector('#grid-vendas').dataProvider =(params, callback) =>{
@@ -50662,7 +50664,19 @@
               totalField.value = item.valorTotal.toFixed(2);
           });    
       }
-      
+      attachComboBoxPagamentos(){
+          customElements.whenDefined('vaadin-combo-box').then(_ =>{
+             this.service.getServicesJson(`${this.URL}/tipoPagamento`).then((json) =>{
+                  const data =[];
+                  json.forEach(function (item, indice, array) {
+                      data.push({"id":indice,"descricao":item});
+                  });
+                  this.querySelector('#tipoPagamento').dataProvider = (params, callback)=>{
+                      callback(data, data.length);
+                  };
+             });              
+          });
+      }   
   }
   customElements.define('vapp-venda-view',VappVenda);
 
