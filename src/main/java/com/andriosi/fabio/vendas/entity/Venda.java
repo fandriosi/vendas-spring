@@ -5,8 +5,10 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -32,6 +34,14 @@ public class Venda implements Serializable {
     @OneToMany(fetch= FetchType.EAGER, cascade =CascadeType.ALL  )
     @JoinColumn(name = "fk_produtosvendidos")
     private List<ProdutosVendidos> produtosVendidos = new ArrayList<>();
+    @Transient
+    private String strDataRecebimento;
+    @Transient
+    private String strDataCompra;
+    @Transient
+    private String strValorPago;
+    @Transient
+    private String strValorTotal;
 
     public Long getId() {
         return id;
@@ -95,5 +105,31 @@ public class Venda implements Serializable {
 
     public void setValorTotal(BigDecimal valorTotal) {
         this.valorTotal = valorTotal;
+    }
+
+    public String getStrDataRecebimento() {
+        SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
+        strDataRecebimento = fmt.format(dataRecebimento.getTime());
+        return strDataRecebimento;
+    }
+
+    public String getStrDataCompra() {
+        SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
+        strDataCompra = fmt.format(dataCompra.getTime());
+        return strDataCompra;
+    }
+
+    public String getStrValorPago() {
+        java.text.NumberFormat currency = java.text.NumberFormat.getCurrencyInstance();
+        if(valorPago != null)
+            strValorTotal = currency.format(valorPago);
+        return strValorPago;
+    }
+
+    public String getStrValorTotal() {
+        java.text.NumberFormat currency = java.text.NumberFormat.getCurrencyInstance();
+        if(valorTotal != null)
+            currency.format(valorTotal);
+        return strValorTotal;
     }
 }

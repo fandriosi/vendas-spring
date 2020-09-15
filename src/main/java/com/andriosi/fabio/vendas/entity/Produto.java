@@ -7,6 +7,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.util.Locale;
 
 @Entity
 public class Produto implements Serializable {
@@ -28,6 +30,10 @@ public class Produto implements Serializable {
     @OneToOne(fetch = FetchType.EAGER)
     public Categoria categoria;
     private Integer quantidade;
+    @Transient
+    private String strPreco;
+    @Transient
+    private String strPrecoCusto;
     public Long getId() {
         return id;
     }
@@ -82,5 +88,16 @@ public class Produto implements Serializable {
 
     public void setQuantidade(Integer quantidade) {
         this.quantidade = quantidade;
+    }
+
+    public String getStrPreco() {
+        java.text.NumberFormat currency = java.text.NumberFormat.getCurrencyInstance();
+        strPreco = currency.format(preco);
+        return strPreco;
+    }
+    public String getStrPrecoCusto() {
+        java.text.NumberFormat currency = java.text.NumberFormat.getCurrencyInstance();
+        strPreco = currency.format(precoCusto);
+        return strPrecoCusto;
     }
 }

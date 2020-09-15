@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -60,5 +61,9 @@ public class  VendaController {
         List<Venda> list = new ArrayList<>();
         repository.findAll().forEach(list::add);
         return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+    @GetMapping("vendas/tipoPagamento")
+    public @ResponseBody ResponseEntity<List<TipoPagamento>> getTipoPagamento(){
+        return  new ResponseEntity<>(Arrays.asList(TipoPagamento.values()), HttpStatus.OK);
     }
 }

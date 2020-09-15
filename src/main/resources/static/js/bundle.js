@@ -36532,6 +36532,7 @@
           this.athachInputListener();
           this.selectItemsEventListener();
           this.comparedDates();
+          this.attachComboBoxPagamentos();
       }
       callServer(){
           const templete = html$1 `
@@ -36547,6 +36548,7 @@
                 <vaadin-button theme="primary" id="btnFindByDescricao" @click=${_ => this.findByDescricao()}><iron-icon icon="vaadin:search"></iron-icon></vaadin-button>
             </vaadin-form-item>
             <vaadin-combo-box required label="Produto" item-label-path="descricao" item-value-path="id" id="produtos" error-message="O produto não pode ser nulo!"></vaadin-combo-box>
+            <vaadin-combo-box required label="Tipo de Pagamento" item-label-path="descricao" item-value-path="id" id="tipoPagamento" error-message="O Tipo de Pagamento não pode ser nulo!"></vaadin-combo-box>
             <vaadin-integer-field required min="1" max="100" has-controls label="Quantidade" id="quantidade"></vaadin-integer-field>
             <vaadin-number-field label="Valor Total" maxlength="8" placeholder="Valor Total" id="total" readonly="true"><div slot="prefix">R$</div></vaadin-number-field>
             <vaadin-form-item>
@@ -36556,13 +36558,13 @@
                 <vaadin-button theme="primary" @click=${_ =>this.cancelar()} id="btnCancelar">Cancelar Venda</vaadin-button>
             </vaadin-form-item>
         </vaadin-form-layout>
-        <h4>Lista de Produtos Vendidos</h4>
+        <h4>Lista de Vendas</h4>
         <vaadin-grid>
             <vaadin-grid-column path="produto.id" header="Código Produto" width="10%"></vaadin-grid-column>
             <vaadin-grid-column path="produto.descricao" header="Descrição" width="10%"></vaadin-grid-column>
             <vaadin-grid-column path="produto.categoria.descricao" header="Categoria"></vaadin-grid-column>
-            <vaadin-grid-column path="produto.codigoBarra" header="Referência"></vaadin-grid-column>
-            <vaadin-grid-column path="produto.preco" header="Preço"></vaadin-grid-column>
+            <vaadin-grid-column path="produto.codigoBarra" header="Referência"></vaadin-grid-column>            
+            <vaadin-grid-column path="produto.strPreco" header="Preço"></vaadin-grid-column>
             <vaadin-grid-column path="quantidade" header="Quantidade"></vaadin-grid-column>
         </vaadin-grid>
         </vaadin-form-layout>`;
@@ -36695,11 +36697,22 @@
           this.querySelector('#dataPagamento').i18n=DataFormat.data;
       }
       attachComboBox(){
+         this.querySelector('#clientes').dataProvider = (params, callback) =>{
+              this.service.getServicesJson(this.CLIENTE_URL)
+              .then(json => callback(json, json.length));
+          }; 
+      }
+      attachComboBoxPagamentos(){
           customElements.whenDefined('vaadin-combo-box').then(_ =>{
-              this.querySelector('#clientes').dataProvider = (params, callback) =>{
-                  this.service.getServicesJson(this.CLIENTE_URL)
-                  .then(json => callback(json, json.length));
-              }; 
+             this.service.getServicesJson(`${this.URL}/tipoPagamento`).then((json) =>{
+                  const data =[];
+                  json.forEach(function (item, indice, array) {
+                      data.push({"id":indice,"descricao":item});
+                  });
+                  this.querySelector('#tipoPagamento').dataProvider = (params, callback)=>{
+                      callback(data, data.length);
+                  };
+             });              
           });
       }
       showDialog(message){
@@ -36713,8 +36726,8 @@
       }
       getJson(){
           const venda = new Vendas(this.querySelector('#id').value, this.querySelector('#dataCompra').value, 
-              this.querySelector('#dataPagamento').value,0,this.querySelector('#valorPago').value, this.querySelector('#quantidade').value,
-              this.querySelector('#total').value, this.querySelector('#clientes').value, this.produtosVendidos);         
+              this.querySelector('#dataPagamento').value,this.querySelector('#tipoPagamento').value,this.querySelector('#valorPago').value, 
+              this.querySelector('#quantidade').value,this.querySelector('#total').value, this.querySelector('#clientes').value, this.produtosVendidos);         
           return venda.json;
       }
       selectItemsEventListener(){            
@@ -50194,8 +50207,8 @@
             <vaadin-grid-column width="30%" path="descricao" header="Descrição"></vaadin-grid-column>
             <vaadin-grid-column path= "categoria.descricao" header="Categoria"></vaadin-grid-column>
             <vaadin-grid-column path="codigoBarra" header="Referência"></vaadin-grid-column>
-            <vaadin-grid-column path="precoCusto" header="Preço de Custo"></vaadin-grid-column>
-            <vaadin-grid-column path="preco" header="Preço"></vaadin-grid-column>
+            <vaadin-grid-column path="strPrecoCusto" header="Preço de Custo"></vaadin-grid-column>
+            <vaadin-grid-column path="strPreco" header="Preço"></vaadin-grid-column>
             <vaadin-grid-column path="quantidade" header="Quantidade"></vaadin-grid-column>
         </vaadin-grid>`;  
           render(template, this);   
@@ -50528,6 +50541,7 @@
             <vaadin-number-field label="Valor Pago" maxlength="8" placeholder="Valor Pago" id="valorPago"><div slot="prefix">R$</div></vaadin-number-field>
             <vaadin-text-field disabled="true" label="Cliente" id="clientes"></vaadin-text-field>       
             <vaadin-number-field label="Valor Total" maxlength="8" placeholder="Valor Total" id="total" disabled="true"><div slot="prefix">R$</div></vaadin-number-field> 
+            <vaadin-text-field disabled="true" label="Tipo de Pagamento" id="tipoPagamento"></vaadin-text-field>
             <vaadin-form-item colspan="2">
                 <h4>Produtos Vendidos</h4>
                 <vaadin-grid id="grid-produtos">
@@ -50535,7 +50549,7 @@
                     <vaadin-grid-column path="produto.descricao" header="Produto" width="10%"></vaadin-grid-column>
                     <vaadin-grid-column path="produto.categoria.descricao" header="Categoria"></vaadin-grid-column>
                     <vaadin-grid-column path="quantidade" header="Quantidade"></vaadin-grid-column>   
-                    <vaadin-grid-column path="produto.preco" header="Preço"></vaadin-grid-column>    
+                    <vaadin-grid-column path="produto.strPreco" header="Preço"></vaadin-grid-column>    
                 </vaadin-grid>
             </vaadin-fomr-item>              
             <vaadin-form-item>
@@ -50546,11 +50560,12 @@
         <h4>Lista de Vendas</h4>
         <vaadin-grid id="grid-vendas">            
             <vaadin-grid-column path="id" header="Código" width="10%"></vaadin-grid-column>
-            <vaadin-grid-column path="dataCompra" header="Data da Compra" width="10%"></vaadin-grid-column>
-            <vaadin-grid-column path="dataRecebimento" header="Data Pagamento"></vaadin-grid-column>
-            <vaadin-grid-column path="valorPago" header="Valor Pago"></vaadin-grid-column>
             <vaadin-grid-column path="clientes.nome" header="Cliente"></vaadin-grid-column>
-            <vaadin-grid-column path="valorTotal" header="Total"></vaadin-grid-column>        
+            <vaadin-grid-column path="strDataCompra" header="Data da Compra" width="10%"></vaadin-grid-column>
+            <vaadin-grid-column path="strDataRecebimento" header="Data Pagamento"></vaadin-grid-column>
+            <vaadin-grid-column path="tipoPagamento" header="Tipo de Pagamento"></vaadin-grid-column>                       
+            <vaadin-grid-column path="strValorTotal" header="Total"></vaadin-grid-column>  
+            <vaadin-grid-column path="strValorPago" header="Valor Pago"></vaadin-grid-column>    
         </vaadin-grid>`;
           render(templete, this);
       }
@@ -50605,6 +50620,7 @@
           this.querySelector('#valorPago').value='';
           this.querySelector('#clientes').value='';
           this.querySelector('#total').value='';
+          this.querySelector('#tipoPagamento').value='';
           this.querySelector('#grid-produtos').items=[];
       }
       showDialog(message){
@@ -50631,6 +50647,7 @@
           let valorPagoField = this.querySelector('#valorPago');
           let clienteField = this.querySelector('#clientes');
           let totalField = this.querySelector('#total');
+          let tipoPagamentoField = this.querySelector('#tipoPagamento');
           grid.addEventListener('active-item-changed', function(event){
               let item = event.detail.value;
               grid.selectedItems = item ? [item]:[];
@@ -50641,6 +50658,7 @@
               idField.value = item.id;
               valorPagoField.value = item.valorPago;
               clienteField.value = item.clientes.nome;
+              tipoPagamentoField.value = item.tipoPagamento;
               totalField.value = item.valorTotal.toFixed(2);
           });    
       }
@@ -50691,7 +50709,7 @@
             <vaadin-tab>
               <a href="/Carrinho">
                 <iron-icon icon="vaadin:cart"></iron-icon>
-                  <span>Carrinho Vendas</span>
+                  <span>Carrinho Compras</span>
               </a>
             </vaadin-tab>
             <vaadin-tab>
