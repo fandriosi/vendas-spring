@@ -50307,7 +50307,7 @@
       findByDescricao(){
           let descricaoTextfield = this.querySelector('#findDescricao');    
           let data = JSON.stringify({descricao: descricaoTextfield.value});
-          this.service.postServices("http://localhost:8080/resources/produtosFindByDescricao", data)
+          this.service.postServices("resources/produtosFindByDescricao", data)
           .then(response =>{ 
               if(response.ok){
                   this.querySelector('vaadin-grid').dataProvider = (params, callback) =>{
@@ -50357,7 +50357,7 @@
           //    });
          // });
           this.querySelector('vaadin-combo-box').dataProvider = (params, callback)=>{
-              this.service.getServicesJson("http://localhost:8080/resources/categorias").then(
+              this.service.getServicesJson("resources/categorias").then(
                   json => callback(json, json.length));
           };
       }
