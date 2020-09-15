@@ -1,7 +1,9 @@
 package com.andriosi.fabio.vendas.controllers;
 
+import com.andriosi.fabio.vendas.entity.Categoria;
 import com.andriosi.fabio.vendas.entity.Cliente;
 import com.andriosi.fabio.vendas.entity.Produto;
+import com.andriosi.fabio.vendas.services.CategoriaRepository;
 import com.andriosi.fabio.vendas.services.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,8 @@ import java.util.List;
 public class ProdutoController {
     @Autowired
     private ProdutoRepository repository;
+    @Autowired
+    private CategoriaRepository categoriaRepository;
     @GetMapping("/produtos")
     public @ResponseBody ResponseEntity<List<Produto>> findAll(){
         List<Produto> list = new ArrayList<>();
@@ -35,7 +39,10 @@ public class ProdutoController {
     public @ResponseBody ResponseEntity<List<Produto>> addProduto(@RequestBody Produto produto){
         repository.save(produto);
         List<Produto> list = new ArrayList<>();
-        repository.findAll().forEach(list::add);
+        repository.findAll().forEach(item ->{
+            item.setCategoria(categoriaRepository.findById(item.getCategoria().getId()).get());
+            list.add(item);
+        });
         return new ResponseEntity<>(list, HttpStatus.OK );
     }
 

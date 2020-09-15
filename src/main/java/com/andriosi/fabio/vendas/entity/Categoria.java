@@ -13,14 +13,6 @@ public class Categoria  implements Serializable {
     @NotNull
     @Column(unique = true)
     private String descricao;
-
-    public Categoria() {}
-
-    public Categoria(Long id, @NotNull String descricao) {
-        this.id = id;
-        this.descricao = descricao;
-    }
-
     public Long getId() {
         return id;
     }
@@ -36,4 +28,5 @@ public class Categoria  implements Serializable {
     public void setDescricao(String descricao) {
         this.descricao = new StringCapitalize().getCapitalize(descricao);
     }
+
 }

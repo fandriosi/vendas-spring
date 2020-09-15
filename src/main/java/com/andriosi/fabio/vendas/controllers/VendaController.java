@@ -30,8 +30,35 @@ public class  VendaController {
     @PostMapping("/vendas")
     public @ResponseBody ResponseEntity<List<ProdutosVendidos>> creteVenda(@RequestBody Venda venda) {
         venda.setClientes(clienteRepository.findById(venda.getClientes().getId()).get());
+        venda.getProdutosVendidos().forEach(item ->{
+            Produto produto = produtoRepository.findById(item.getProduto().getId()).get();
+            produto.setQuantidade(produto.getQuantidade() - item.getQuantidade());
+            produtoRepository.save(produto);
+        });
         Venda v = repository.save(venda);
         List<ProdutosVendidos> list = repository.findById(v.getId()).get().getProdutosVendidos();
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+    @PutMapping("/vendas")
+    public @ResponseBody ResponseEntity<List<Venda>> updateVenda(@RequestBody Venda venda) {
+        Venda v = repository.findById(venda.getId()).get();
+        v.setValorPago(venda.getValorPago());
+        repository.save(v);
+        List<Venda> list = new ArrayList<>();
+        repository.findAll().forEach(list::add);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+    @DeleteMapping("/vendas")
+    public @ResponseBody ResponseEntity<List<Venda>> deleteVenda(@RequestBody Venda venda) {
+        venda = repository.findById(venda.getId()).get();
+        venda.getProdutosVendidos().forEach(item ->{
+            Produto produto = produtoRepository.findById(item.getProduto().getId()).get();
+            produto.setQuantidade(produto.getQuantidade() + item.getQuantidade());
+            produtoRepository.save(produto);
+        });
+        repository.delete(venda);
+        List<Venda> list = new ArrayList<>();
+        repository.findAll().forEach(list::add);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 }

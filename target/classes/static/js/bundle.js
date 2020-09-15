@@ -36368,7 +36368,6 @@
               headers: {
                   "Content-Type": "application/json",
                   // "Content-Type": "application/x-www-form-urlencoded",
-                  "Authorization": `Basic ${window.btoa("Bemodas"+":"+"$#Bmodas43")}`
               },
               redirect: "follow", // manual, *follow, error
               referrer: "no-referrer", // no-referrer, *client
@@ -36385,7 +36384,6 @@
               headers: {
                   "Content-Type": "application/json",
                   // "Content-Type": "application/x-www-form-urlencoded",
-                  "Authorization": `Basic ${window.btoa("Bemodas"+":"+"$#Bmodas43")}`
               },
               redirect: "follow", // manual, *follow, error
               referrer: "no-referrer", // no-referrer, *client
@@ -36402,7 +36400,6 @@
               headers: {
                   "Content-Type": "application/json",
                   // "Content-Type": "application/x-www-form-urlencoded",
-                  "Authorization": `Basic ${window.btoa("Bemodas"+":"+"$#Bmodas43")}`
               },
               redirect: "follow", // manual, *follow, error
               referrer: "no-referrer", // no-referrer, *client
@@ -36413,7 +36410,6 @@
           const request = await fetch(url, {headers:{
               "Content-Type": "application/json",
               // "Content-Type": "application/x-www-form-urlencoded",
-              "Authorization": `Basic ${window.btoa("Bemodas"+":"+"$#Bmodas43")}`
           }});
           const payload = await request.json();
           return payload;
@@ -36428,7 +36424,6 @@
               headers: {
                   "Content-Type": "application/json",
                   // "Content-Type": "application/x-www-form-urlencoded",
-                  "Authorization": `Basic ${window.btoa("Bemodas"+":"+"$#Bmodas43")}`
               },
               redirect: "follow", // manual, *follow, error
               referrer: "no-referrer", // no-referrer, *clienTE          
@@ -36641,7 +36636,7 @@
       findByDescricao(){
           let descricaoTextfield = this.querySelector('#findDescricao');    
           let data = JSON.stringify({descricao: descricaoTextfield.value});
-          this.service.getServices("http://localhost:8080/resources/produtosFindByDescricao/"+this.querySelector('#findDescricao').value)
+          this.service.getServices("resources/produtosFindByDescricao/"+this.querySelector('#findDescricao').value)
           .then((json) =>{ 
               this.querySelector('#produtos').clearCache();    
               this.querySelector('#produtos').dataProvider = (params, callback) =>{
@@ -50385,7 +50380,7 @@
       findByDescricao(){
           let descricaoTextfield = this.querySelector('#findDescricao');    
           let data = JSON.stringify({descricao: descricaoTextfield.value});
-          this.service.postServices("http://localhost:8080/resources/produtosFindByDescricao", data)
+          this.service.postServices("resources/produtosFindByDescricao", data)
           .then(response =>{ 
               if(response.ok){
                   this.querySelector('vaadin-grid').dataProvider = (params, callback) =>{
@@ -50449,7 +50444,7 @@
           //    });
          // });
           this.querySelector('vaadin-combo-box').dataProvider = (params, callback)=>{
-              this.service.getServicesJson("http://localhost:8080/resources/categorias").then(
+              this.service.getServicesJson("resources/categorias").then(
                   json => callback(json, json.length));
           };
       }
