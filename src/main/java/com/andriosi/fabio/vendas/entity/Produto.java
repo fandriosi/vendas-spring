@@ -91,13 +91,13 @@ public class Produto implements Serializable {
     }
 
     public String getStrPreco() {
-        java.text.NumberFormat currency = java.text.NumberFormat.getCurrencyInstance();
+        DecimalFormat currency = new DecimalFormat("'R$' 0.00");
         strPreco = currency.format(preco);
         return strPreco;
     }
     public String getStrPrecoCusto() {
-        java.text.NumberFormat currency = java.text.NumberFormat.getCurrencyInstance();
-        strPreco = currency.format(precoCusto);
+        DecimalFormat currency = new DecimalFormat("'R$' 0.00");
+        strPrecoCusto = currency.format(precoCusto);
         return strPrecoCusto;
     }
 }

@@ -5,6 +5,7 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -120,14 +121,14 @@ public class Venda implements Serializable {
     }
 
     public String getStrValorPago() {
-        java.text.NumberFormat currency = java.text.NumberFormat.getCurrencyInstance();
+        DecimalFormat currency = new DecimalFormat("'R$' 0.00");
         if(valorPago != null)
             strValorTotal = currency.format(valorPago);
         return strValorPago;
     }
 
     public String getStrValorTotal() {
-        java.text.NumberFormat currency = java.text.NumberFormat.getCurrencyInstance();
+        DecimalFormat currency = new DecimalFormat("'R$' 0.00");
         if(valorTotal != null)
             currency.format(valorTotal);
         return strValorTotal;

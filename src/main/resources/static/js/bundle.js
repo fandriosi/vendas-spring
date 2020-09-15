@@ -50207,7 +50207,7 @@
             <vaadin-grid-column width="30%" path="descricao" header="Descrição"></vaadin-grid-column>
             <vaadin-grid-column path= "categoria.descricao" header="Categoria"></vaadin-grid-column>
             <vaadin-grid-column path="codigoBarra" header="Referência"></vaadin-grid-column>
-            <vaadin-grid-column path="strPrecoCuto" header="Preço de Custo"></vaadin-grid-column>
+            <vaadin-grid-column path="strPrecoCusto" header="Preço de Custo"></vaadin-grid-column>
             <vaadin-grid-column path="strPreco" header="Preço"></vaadin-grid-column>
             <vaadin-grid-column path="quantidade" header="Quantidade"></vaadin-grid-column>
         </vaadin-grid>`;  
