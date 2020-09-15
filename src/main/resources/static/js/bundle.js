@@ -36635,7 +36635,7 @@
       }
       findByDescricao(){
           let descricaoTextfield = this.querySelector('#findDescricao');    
-          this.service.getServices("http://localhost:8080/resources/produtosFindByDescricao/"+this.querySelector('#findDescricao').value)
+          this.service.getServices("resources/produtosFindByDescricao/"+this.querySelector('#findDescricao').value)
           .then((json) =>{ 
               this.querySelector('#produtos').clearCache();    
               this.querySelector('#produtos').dataProvider = (params, callback) =>{
