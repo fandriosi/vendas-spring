@@ -123,14 +123,14 @@ public class Venda implements Serializable {
     public String getStrValorPago() {
         DecimalFormat currency = new DecimalFormat("'R$' 0.00");
         if(valorPago != null)
-            strValorTotal = currency.format(valorPago);
+            strValorPago = currency.format(valorPago);
         return strValorPago;
     }
 
     public String getStrValorTotal() {
         DecimalFormat currency = new DecimalFormat("'R$' 0.00");
         if(valorTotal != null)
-            currency.format(valorTotal);
+            strValorTotal = currency.format(valorTotal);
         return strValorTotal;
     }
 }
