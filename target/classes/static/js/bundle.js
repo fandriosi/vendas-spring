@@ -50188,8 +50188,8 @@
             <vaadin-integer-field  min="1" max="100" has-controls label="Quantidade" id="quantidade"></vaadin-integer-field>
             <vaadin-combo-box label="Categoria" item-label-path="descricao" item-value-path="id"></vaadin-combo-box>
             <vaadin-form-item>
-                <vaadin-text-field  style="width: 70%;" placeholder="Buscar por Descrição" id="findDescricao" clear-button-visible></vaadin-text-field>
-                <vaadin-button theme="primary" id="btnFindByDescricao" @click=${_ => this.findByDescricao()}>Buscar por Descricao <iron-icon icon="vaadin:search"></iron-icon></vaadin-button>
+                <vaadin-text-field  style="width: 70%;" placeholder="Buscar por Descrição do Produto" id="findDescricao" clear-button-visible></vaadin-text-field>
+                <vaadin-button theme="primary" id="btnFindByDescricao" @click=${_ => this.findByDescricao()}><iron-icon icon="vaadin:search"></iron-icon></vaadin-button>
             </vaadin-form-item>            
             <vaadin-custom-field label="Preço">
                 <vaadin-number-field  maxlength="5" placeholder="Custo" id="custo"><div slot="prefix">R$</div></vaadin-number-field>
@@ -50305,20 +50305,10 @@
           this.cleanFields();
       }
       findByDescricao(){
-          let descricaoTextfield = this.querySelector('#findDescricao');    
-          let data = JSON.stringify({descricao: descricaoTextfield.value});
-          this.service.postServices("resources/produtosFindByDescricao", data)
-          .then(response =>{ 
-              if(response.ok){
-                  this.querySelector('vaadin-grid').dataProvider = (params, callback) =>{
-                      response.json().then( json => callback(json, json.length));
-                  };
-                  descricaoTextfield.value="";
-              }              
-          }).catch(erro =>{
-              this.showDialog("Erro na conexão como Servidor!");
-              console.log(erro.message);
-          });  
+          this.querySelector('vaadin-grid').dataProvider = (params, callback)=>{
+              this.service.getServices(`resources/produtosFindByDescricao/${this.querySelector('#findDescricao').value}`).then(
+              json => callback(json, json.length));
+          };
       }
       loadingGrid(){        
           const grid = this.querySelector('vaadin-grid');
@@ -50543,7 +50533,6 @@
             <vaadin-text-field disabled="true" label="Cliente" id="clientes"></vaadin-text-field>       
             <vaadin-combo-box required label="Tipo de Pagamento" item-label-path="descricao" item-value-path="id" id="tipoPagamento" error-message="O Tipo de Pagamento não pode ser nulo!"></vaadin-combo-box>
             <vaadin-number-field label="Valor Total" maxlength="8" placeholder="Valor Total" id="total" disabled="true"><div slot="prefix">R$</div></vaadin-number-field> 
-            <vaadin-text-field disabled="true" label="Tipo de Pagamento" id="tipoPagamento"></vaadin-text-field>
             <vaadin-form-item colspan="2">
                 <h4>Produtos Vendidos</h4>
                 <vaadin-grid id="grid-produtos">
@@ -50580,7 +50569,7 @@
           };      
       }
       salvar(){
-          if(this.querySelector('#id').value !== ''){
+          if(this.querySelector('#id').value !== '' && this.querySelector('#tipoPagamento').validate()){
               this.service.putServices(this.URL, JSON.stringify({id: this.querySelector('#id').value,
                   valorPago: this.querySelector('#valorPago').value, tipoPagamento: this.querySelector('#tipoPagamento').value}))
               .then(response =>{
@@ -50622,7 +50611,6 @@
           this.querySelector('#valorPago').value='';
           this.querySelector('#clientes').value='';
           this.querySelector('#total').value='';
-          this.querySelector('#tipoPagamento').value='';
           this.querySelector('#grid-produtos').items=[];
       }
       showDialog(message){
@@ -50660,7 +50648,7 @@
               idField.value = item.id;
               valorPagoField.value = item.valorPago;
               clienteField.value = item.clientes.nome;
-              tipoPagamentoField.value = item.tipoPagamento;
+              tipoPagamentoField.value = 0;
               totalField.value = item.valorTotal.toFixed(2);
           });    
       }
