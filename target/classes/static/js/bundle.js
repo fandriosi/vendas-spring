@@ -36615,7 +36615,7 @@
       concluirVenda(){
           if(this.querySelector('#dataCompra').validate() && this.querySelector('#dataPagamento').validate() && 
               this.querySelector('#produtos').validate() && this.querySelector('#clientes').validate()&& this.querySelector('#quantidade').validate()
-               && this.produtosVendidos.length > 0){
+               && this.produtosVendidos.length > 0 && this.querySelector('#tipoPagamento').validate()){
               this.service.postServices(this.URL,this.getJson())
                   .then(response =>{
                       if(response.ok){
