@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,6 +27,12 @@ public class  VendaController {
     public ResponseEntity<List<Venda>> findAll(){
         List<Venda> list = new ArrayList<>();
         repository.findAll().forEach(list::add);
+        return new ResponseEntity<>(list, HttpStatus.OK );
+    }
+    @GetMapping("/findClientesByName/{nome}")
+    public ResponseEntity<List<Venda>> findClientesByNome(@PathVariable("nome")String nome){
+        List<Venda> list = new ArrayList<>();
+        repository.findClientesByNome(nome).forEach(list::add);
         return new ResponseEntity<>(list, HttpStatus.OK );
     }
     @PostMapping("/vendas")

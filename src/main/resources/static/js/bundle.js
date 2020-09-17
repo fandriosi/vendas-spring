@@ -50533,6 +50533,10 @@
             <vaadin-text-field disabled="true" label="Cliente" id="clientes"></vaadin-text-field>       
             <vaadin-combo-box required label="Tipo de Pagamento" item-label-path="descricao" item-value-path="id" id="tipoPagamento" error-message="O Tipo de Pagamento não pode ser nulo!"></vaadin-combo-box>
             <vaadin-number-field label="Valor Total" maxlength="8" placeholder="Valor Total" id="total" disabled="true"><div slot="prefix">R$</div></vaadin-number-field> 
+            <vaadin-form-item>
+                <vaadin-text-field  style="width: 70%;" placeholder="Busca cliente por Nome" id="findClienteByName" clear-button-visible></vaadin-text-field>
+                <vaadin-button theme="primary" id="btnFindByDescricao" @click=${_ => this.findClientesByName()}><iron-icon icon="vaadin:search"></iron-icon></vaadin-button>
+            </vaadin-form-item>
             <vaadin-form-item colspan="2">
                 <h4>Produtos Vendidos</h4>
                 <vaadin-grid id="grid-produtos">
@@ -50627,6 +50631,19 @@
               this.querySelector('#dataPagamento').value,0,this.querySelector('#valorPago').value, this.querySelector('#quantidade').value,
               this.querySelector('#total').value, this.querySelector('#clientes').value, this.produtosVendidos);         
           return venda.json;
+      }
+      findClientesByName(){  
+          this.service.getServices(`resources/findClientesByName/${this.querySelector('#findClienteByName').value}`)
+          .then((json) =>{ 
+              this.querySelector('#grid-vendas').clearCache();
+              this.querySelector('#grid-vendas').dataProvider =(params, callback) =>{
+                   callback(json, json.length);
+              };
+              this.querySelector('#findClienteByName').value='';     
+          }).catch(erro =>{
+              this.showDialog("Erro na conexão como Servidor!");
+              console.log(erro.message);
+          }); 
       }
       selectItemsEventListener(){            
           const grid = this.querySelector('#grid-vendas');
