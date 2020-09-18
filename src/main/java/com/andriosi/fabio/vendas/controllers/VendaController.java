@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,6 +33,13 @@ public class  VendaController {
         List<Venda> list = new ArrayList<>();
         repository.findClientesByNome(nome).forEach(list::add);
         return new ResponseEntity<>(list, HttpStatus.OK );
+    }
+    @GetMapping("/vendas/reports")
+    public @ResponseBody ResponseEntity<VendasReports> getTotalPrecoCusot(){
+        VendasReports vendasReports = new VendasReports();
+        vendasReports.setTotalValorPago(repository.getValorTotal());
+        vendasReports.setTotalValorTotal(repository.getTotalValorPago());
+        return new ResponseEntity<>(vendasReports, HttpStatus.OK);
     }
     @PostMapping("/vendas")
     public @ResponseBody ResponseEntity<List<ProdutosVendidos>> creteVenda(@RequestBody Venda venda) {

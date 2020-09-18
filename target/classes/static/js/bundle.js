@@ -50738,7 +50738,7 @@
             </vaadin-tab>
             <vaadin-tab>
               <a href="/">
-                <iron-icon icon="vaadin:cart"></iron-icon>
+                <iron-icon icon="vaadin:money"></iron-icon>
                   <span>Vendas</span>
               </a>
             </vaadin-tab>

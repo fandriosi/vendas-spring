@@ -1,8 +1,7 @@
 package com.andriosi.fabio.vendas.controllers;
 
-import com.andriosi.fabio.vendas.entity.Categoria;
-import com.andriosi.fabio.vendas.entity.Cliente;
 import com.andriosi.fabio.vendas.entity.Produto;
+import com.andriosi.fabio.vendas.entity.ProdutosReports;
 import com.andriosi.fabio.vendas.services.CategoriaRepository;
 import com.andriosi.fabio.vendas.services.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityExistsException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +29,14 @@ public class ProdutoController {
     public @ResponseBody ResponseEntity<List<Produto>> produtosByDescricao(@PathVariable("descricao") String descricao){
         return new ResponseEntity<>(repository.findByDescricao(descricao), HttpStatus.OK);
     }
+    @GetMapping("/produtos/reports")
+    public @ResponseBody ResponseEntity<ProdutosReports> getTotalPrecoCusot(){
+        ProdutosReports produtosReports = new ProdutosReports();
+        produtosReports.setTotalPrecoCusto(repository.getTotalPrecoCusto());
+        produtosReports.setTotalPreco(repository.getTotalPreco());
+        return new ResponseEntity<>(produtosReports, HttpStatus.OK);
+    }
+
     @GetMapping("/produtos/{id}")
     public @ResponseBody ResponseEntity<Produto> produtosById(@PathVariable("id") Long id){
         return new ResponseEntity<>(repository.findById(id).get(), HttpStatus.OK);
