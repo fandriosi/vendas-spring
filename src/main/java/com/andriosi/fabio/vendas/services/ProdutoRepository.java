@@ -10,9 +10,9 @@ public interface ProdutoRepository extends CrudRepository<Produto, Long> {
     @Query("select p from Produto p where p.descricao like %?1%")
     List<Produto> findByDescricao(String descricao);
 
-    @Query("select SUM(p.precoCusto) from Produto p")
+    @Query("select SUM(p.precoCusto*p.quantidade) from Produto p")
     BigDecimal getTotalPrecoCusto();
 
-    @Query("select SUM(p.preco) from Produto p")
+    @Query("select SUM(p.preco*p.quantidade) from Produto p")
     BigDecimal getTotalPreco();
 }
