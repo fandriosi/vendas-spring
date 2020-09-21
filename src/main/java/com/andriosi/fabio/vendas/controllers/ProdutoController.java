@@ -25,6 +25,7 @@ public class ProdutoController {
         repository.findAll().forEach(list::add);
         return new ResponseEntity<>(list, HttpStatus.OK );
     }
+
     @GetMapping("/produtosFindByDescricao/{descricao}")
     public @ResponseBody ResponseEntity<List<Produto>> produtosByDescricao(@PathVariable("descricao") String descricao){
         return new ResponseEntity<>(repository.findByDescricao(descricao), HttpStatus.OK);

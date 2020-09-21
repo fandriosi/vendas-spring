@@ -45,4 +45,8 @@ public class ClienteController {
         repository.findAll().forEach(list::add);
         return new ResponseEntity<>(list, HttpStatus.OK );
     }
+    @GetMapping("/clientesFindByNome/{nome}")
+    public @ResponseBody ResponseEntity<List<Cliente>> findByName(@PathVariable("nome") String nome){
+        return new ResponseEntity<>(repository.findByNome(nome),HttpStatus.OK );
+    }
 }

@@ -36547,12 +36547,16 @@
             <vaadin-date-picker required label="Data da Compra" id="dataCompra" error-message="A data da Compra não pode ser nulo!"></vaadin-date-picker>
             <vaadin-date-picker required label="Data Pagamento" id="dataPagamento" error-message="A data do Pagamento não pode ser nulo!"></vaadin-date-picker>
             <vaadin-number-field label="Valor Pago" maxlength="8" placeholder="Valor Pago" id="valorPago"><div slot="prefix">R$</div></vaadin-number-field>
-            <vaadin-combo-box required label="Cliente" item-label-path="nome" item-value-path="id" id="clientes" error-message="O Cliente não pode ser nulo!"></vaadin-combo-box>
             <vaadin-form-item>
-                <vaadin-text-field  style="width: 70%;" placeholder="Buscar por Descrição do Produto" id="findDescricao" clear-button-visible></vaadin-text-field>
-                <vaadin-button theme="primary" id="btnFindByDescricao" @click=${_ => this.findByDescricao()}><iron-icon icon="vaadin:search"></iron-icon></vaadin-button>
-            </vaadin-form-item>
-            <vaadin-combo-box required label="Produto" item-label-path="descricao" item-value-path="id" id="produtos" error-message="O produto não pode ser nulo!"></vaadin-combo-box>
+                <vaadin-text-field label="Nome Cliente" style="width: 80%;" placeholder="Buscar por Nome do Cliente" id="findNome" clear-button-visible></vaadin-text-field>
+                <vaadin-button theme="primary" @click=${_ => this.findByNome()}><iron-icon icon="vaadin:search"></iron-icon></vaadin-button></br>
+                <vaadin-combo-box required style="width: 100%;" label="Cliente" item-label-path="nome" item-value-path="id" id="clientes" error-message="O Cliente não pode ser nulo!"></vaadin-combo-box>
+            </vaadin-form-item>            
+            <vaadin-form-item>
+                <vaadin-text-field label="Descrição do Produto" style="width: 80%;" placeholder="Buscar por Descrição do Produto" id="findDescricao" clear-button-visible></vaadin-text-field>
+                <vaadin-button theme="primary" id="btnFindByDescricao" @click=${_ => this.findByDescricao()}><iron-icon icon="vaadin:search"></iron-icon></vaadin-button></br>
+                <vaadin-combo-box required label="Produto"  style="width: 100%;" item-label-path="descricao" item-value-path="id" id="produtos" error-message="O produto não pode ser nulo!"></vaadin-combo-box>
+            </vaadin-form-item>            
             <vaadin-combo-box required label="Tipo de Pagamento" item-label-path="descricao" item-value-path="id" id="tipoPagamento" error-message="O Tipo de Pagamento não pode ser nulo!"></vaadin-combo-box>
             <vaadin-integer-field required min="1" max="100" has-controls label="Quantidade" id="quantidade"></vaadin-integer-field>
             <vaadin-number-field label="Valor Total" maxlength="8" placeholder="Valor Total" id="total" readonly="true"><div slot="prefix">R$</div></vaadin-number-field>
@@ -36579,7 +36583,7 @@
       if(this.comparedDates()){
           if(this.querySelector('#dataCompra').validate() && this.querySelector('#dataPagamento').validate() && 
               this.querySelector('#produtos').validate() && this.querySelector('#clientes').validate()&& this.querySelector('#quantidade').validate()){
-                  this.service.getServices(`${this.PRODUTO_URL}/${this.querySelector('#produtos').value}`)
+                  this.service.getServices(`${this.PRODUTO_URL}findByDescricao/${this.querySelector('#produtos').value}`)
                   .then(json =>{
                       this.produtosVendidos.push({quantidade: this.querySelector('#quantidade').value,
                       produto:json});
@@ -36638,15 +36642,28 @@
           this.produtosVendidos = [];
           this.querySelector('vaadin-grid').clearCache();
       }
-      findByDescricao(){
-          let descricaoTextfield = this.querySelector('#findDescricao');    
-          this.service.getServices("resources/produtosFindByDescricao/"+this.querySelector('#findDescricao').value)
+      findByDescricao(){         
+          this.service.getServices(`${this.PRODUTO_URL}FindByDescricao/${this.querySelector('#findDescricao').value}`)
           .then((json) =>{ 
               this.querySelector('#produtos').clearCache();    
               this.querySelector('#produtos').dataProvider = (params, callback) =>{
                   callback(json, json.length);
               };
-              descricaoTextfield.value="";
+              this.querySelector('#findDescricao').value="";
+                   
+          }).catch(erro =>{
+              this.showDialog("Erro na conexão como Servidor!");
+              console.log(erro.message);
+          });  
+      }
+      findByNome(){ 
+          this.service.getServices(`${this.CLIENTE_URL}FindByNome/${this.querySelector('#findNome').value}`)
+          .then((json) =>{ 
+              this.querySelector('#clientes').clearCache();    
+              this.querySelector('#clientes').dataProvider = (params, callback) =>{
+                  callback(json, json.length);
+              };
+              this.querySelector('#findNome').value="";
                    
           }).catch(erro =>{
               this.showDialog("Erro na conexão como Servidor!");
@@ -50320,7 +50337,7 @@
           this.cleanFields();
       }
       findByDescricao(){
-          this.querySelector('vaadin-grid').dataProvider = (params, callback)=>{
+          this.querySelector('vaadin-grid').dataProvider = (params, callback)=>{            
               this.service.getServices(`resources/produtosFindByDescricao/${this.querySelector('#findDescricao').value}`).then(
               (json) =>{ 
                   callback(json, json.length);
