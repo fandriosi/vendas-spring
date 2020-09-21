@@ -50713,8 +50713,8 @@
               grid.selectedItems = item ? [item]:[];
               gridProdutos.clearCache();
               gridProdutos.items=item.produtosVendidos;    
-              dataCompraField.value = strDataCompra;
-              dataPagamentoField.value=strDataPagamento;
+              dataCompraField.value = item.strDataCompra;
+              dataPagamentoField.value=item.strDataPagamento;
               idField.value = item.id;
               valorPagoField.value = item.valorPago;
               clienteField.value = item.clientes.nome;
