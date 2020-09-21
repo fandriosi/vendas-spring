@@ -36549,12 +36549,12 @@
             <vaadin-number-field label="Valor Pago" maxlength="8" placeholder="Valor Pago" id="valorPago"><div slot="prefix">R$</div></vaadin-number-field>
             <vaadin-form-item>
                 <vaadin-text-field label="Nome Cliente" style="width: 80%;" placeholder="Buscar por Nome do Cliente" id="findNome" clear-button-visible></vaadin-text-field>
-                <vaadin-button theme="primary" @click=${_ => this.findByNome()}><iron-icon icon="vaadin:search"></iron-icon></vaadin-button></br>
+                <vaadin-button theme="primary" id="btnFindNome" @click=${_ => this.findByNome()}><iron-icon icon="vaadin:search"></iron-icon></vaadin-button></br>
                 <vaadin-combo-box required style="width: 100%;" label="Cliente" item-label-path="nome" item-value-path="id" id="clientes" error-message="O Cliente não pode ser nulo!"></vaadin-combo-box>
             </vaadin-form-item>            
             <vaadin-form-item>
                 <vaadin-text-field label="Descrição do Produto" style="width: 80%;" placeholder="Buscar por Descrição do Produto" id="findDescricao" clear-button-visible></vaadin-text-field>
-                <vaadin-button theme="primary" id="btnFindByDescricao" @click=${_ => this.findByDescricao()}><iron-icon icon="vaadin:search"></iron-icon></vaadin-button></br>
+                <vaadin-button theme="primary" id="btnFindDescricao" @click=${_ => this.findByDescricao()}><iron-icon icon="vaadin:search"></iron-icon></vaadin-button></br>
                 <vaadin-combo-box required label="Produto"  style="width: 100%;" item-label-path="descricao" item-value-path="id" id="produtos" error-message="O produto não pode ser nulo!"></vaadin-combo-box>
             </vaadin-form-item>            
             <vaadin-combo-box required label="Tipo de Pagamento" item-label-path="descricao" item-value-path="id" id="tipoPagamento" error-message="O Tipo de Pagamento não pode ser nulo!"></vaadin-combo-box>
@@ -36583,7 +36583,7 @@
       if(this.comparedDates()){
           if(this.querySelector('#dataCompra').validate() && this.querySelector('#dataPagamento').validate() && 
               this.querySelector('#produtos').validate() && this.querySelector('#clientes').validate()&& this.querySelector('#quantidade').validate()){
-                  this.service.getServices(`${this.PRODUTO_URL}findByDescricao/${this.querySelector('#produtos').value}`)
+                  this.service.getServices(`${this.PRODUTO_URL}/${this.querySelector('#produtos').value}`)
                   .then(json =>{
                       this.produtosVendidos.push({quantidade: this.querySelector('#quantidade').value,
                       produto:json});
@@ -36698,6 +36698,8 @@
           let clientesField = this.querySelector('#clientes');
           let quantidadeField = this.querySelector('#quantidade');
           let valorTotalField = this.querySelector('#total');
+          let btnFindDescricao = this.querySelector('#btnFindDescricao');
+          let btnFindNome = this.querySelector('#btnFindNome');
           if(option){
               dtCompraField.readonly = false;
               dtPagamentoField.readonly = false;
@@ -36708,10 +36710,14 @@
               valorPagoField.value= "";
               valorTotalField.value="";
               quantidadeField.value=1;
+              btnFindDescricao.disabled = false;
+              btnFindNome.disabled= false;
           }else {
               dtCompraField.readonly = true;
               dtPagamentoField.readonly = true;
               clientesField.readonly= true;
+              btnFindDescricao.disabled = true;
+              btnFindNome.disabled= true;
           }
       }
       attachDate(){
