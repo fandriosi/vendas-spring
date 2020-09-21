@@ -50197,12 +50197,12 @@
                 <vaadin-button theme="primary" id="btnFindByDescricao" @click=${_ => this.findByDescricao()}><iron-icon icon="vaadin:search"></iron-icon></vaadin-button>
             </vaadin-form-item>            
             <vaadin-custom-field label="Preço">
-                <vaadin-number-field  maxlength="5" placeholder="Custo" id="custo"><div slot="prefix">R$</div></vaadin-number-field>
-                <vaadin-number-field  maxlength="5" placeholder="Venda" id="venda"><div slot="prefix">R$</div></vaadin-number-field>
+                <vaadin-number-field  maxlength="12" placeholder="Custo" id="custo"><div slot="prefix">R$</div></vaadin-number-field>
+                <vaadin-number-field  maxlength="12" placeholder="Venda" id="venda"><div slot="prefix">R$</div></vaadin-number-field>
             </vaadin-custom-field> 
             <vaadin-form-item>
-                <vaadin-number-field label="Total Custo" maxlength="8" placeholder="Valor Total" id="precoCusto" readonly="true"><div slot="prefix">R$</div></vaadin-number-field> 
-                <vaadin-number-field label="Total Preço" maxlength="8" placeholder="Valor Total" id="totalPreco" readonly="true"><div slot="prefix">R$</div></vaadin-number-field>
+                <vaadin-text-field label="Total Custo"  laceholder="Valor Total" id="precoCusto" readonly="true"><div slot="prefix">R$</div></vaadin-text-field> 
+                <vaadin-text-field label="Total Preço" placeholder="Valor Total" id="totalPreco" readonly="true"><div slot="prefix">R$</div></vaadin-text-field>
             </vaadin-form-item>      
             <vaadin-form-item>
                 <vaadin-button theme="primary" @click=${_ => this.persist()} id="btnSalvar">Salvar</vaadin-button>
@@ -50373,8 +50373,8 @@
       getReports(){
           this.service.getServices(`${this.URL}/reports`).then(
               (json)=>{
-                  this.querySelector('#precoCusto').value=json.totalPrecoCusto.toFixed(2);
-                  this.querySelector('#totalPreco').value=json.totalPreco.toFixed(2);
+                  this.querySelector('#precoCusto').value=new Intl.NumberFormat('pt-BR').format(json.totalPrecoCusto.toFixed(2));
+                  this.querySelector('#totalPreco').value=new Intl.NumberFormat('pt-BR').format(json.totalPreco.toFixed(2));
               }
           );
       }
@@ -50559,10 +50559,10 @@
             <vaadin-number-field label="Valor Pago" maxlength="8" placeholder="Valor Pago" id="valorPago"><div slot="prefix">R$</div></vaadin-number-field>
             <vaadin-text-field readonly="true" label="Cliente" id="clientes"></vaadin-text-field>       
             <vaadin-combo-box required label="Tipo de Pagamento" item-label-path="descricao" item-value-path="id" id="tipoPagamento" error-message="O Tipo de Pagamento não pode ser nulo!"></vaadin-combo-box>
-            <vaadin-number-field label="Valor Total" maxlength="8" placeholder="Valor Total" id="total" readonly="true"><div slot="prefix">R$</div></vaadin-number-field> 
+            <vaadin-number-field label="Valor Total" placeholder="Valor Total" id="total" readonly="true"><div slot="prefix">R$</div></vaadin-number-field> 
             <vaadin-form-item>
-                <vaadin-number-field label="Saldo" maxlength="8" placeholder="Valor Total" id="totalPago" readonly="true"><div slot="prefix">R$</div></vaadin-number-field> 
-                <vaadin-number-field label="Saldo Pago" maxlength="8" placeholder="Valor Total" id="valorTotal" readonly="true"><div slot="prefix">R$</div></vaadin-number-field>
+                <vaadin-text-field label="Saldo" placeholder="Valor Total" id="totalPago" readonly="true"><div slot="prefix">R$</div></vaadin-text-field> 
+                <vaadin-text-field label="Saldo Pago" placeholder="Valor Total" id="valorTotal" readonly="true"><div slot="prefix">R$</div></vaadin-text-field>
             </vaadin-form-item>             
             <vaadin-form-item>
                 <vaadin-text-field label="Nome do Cliente" style="width: 70%;" placeholder="Busca cliente por Nome" id="findClienteByName" clear-button-visible></vaadin-text-field>
@@ -50619,9 +50619,10 @@
                   }    
               }).catch(erro =>{
                   console.log(erro.message);
+              }).finally(_ =>{
+                  this.getReports();
               });
-          }
-          this.getReports();
+          }        
       }
       delete(){
           if(this.querySelector('#id').value !== ''){
@@ -50638,9 +50639,10 @@
                   }   
               }).catch(erro =>{
                   console.error(erro.message);
+              }).finally(_ =>{
+                  this.getReports();
               });
-          }
-          this.getReports();
+          }        
       }
       cleanField(){
           this.querySelector('#id').value='';
@@ -50719,8 +50721,8 @@
       getReports(){
           this.service.getServices(`${this.URL}/reports`).then(
               (json)=>{
-                  this.querySelector('#totalPago').value=json.totalValorPago.toFixed(2);
-                  this.querySelector('#valorTotal').value=json.totalValorTotal.toFixed(2);
+                  this.querySelector('#totalPago').value=new Intl.NumberFormat('pt-BR').format(json.totalValorPago.toFixed(2));
+                  this.querySelector('#valorTotal').value=new Intl.NumberFormat('pt-BR').format(json.totalValorTotal.toFixed(2));
               }
           );
       }
