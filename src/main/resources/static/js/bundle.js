@@ -50714,7 +50714,7 @@
               gridProdutos.clearCache();
               gridProdutos.items=item.produtosVendidos;    
               dataCompraField.value = item.strDataCompra;
-              dataPagamentoField.value=item.strDataPagamento;
+              dataPagamentoField.value=item.strDataRecebimento;
               idField.value = item.id;
               valorPagoField.value = item.valorPago;
               clienteField.value = item.clientes.nome;
