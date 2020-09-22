@@ -50716,7 +50716,6 @@
       }
       findClientesByName(){  
           let nome = this.querySelector('#findClienteByName').value;
-          console.log('nome', nome);
           if(nome.trim() !=''){
               this.service.getServices(`resources/findClientesByName/${nome}`)
               .then((json) =>{ 
