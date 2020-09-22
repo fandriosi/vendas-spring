@@ -36643,32 +36643,33 @@
           this.querySelector('vaadin-grid').clearCache();
       }
       findByDescricao(){         
-          this.service.getServices(`${this.PRODUTO_URL}FindByDescricao/${this.querySelector('#findDescricao').value}`)
-          .then((json) =>{ 
-              this.querySelector('#produtos').clearCache();    
-              this.querySelector('#produtos').dataProvider = (params, callback) =>{
-                  callback(json, json.length);
-              };
-              this.querySelector('#findDescricao').value="";
+          let descricao = this.querySelector('#findDescricao').value;
+          if(descricao.trim()!=''){
+              this.service.getServices(`${this.PRODUTO_URL}FindByDescricao/${descricao}`)
+              .then((json) =>{ 
+                  this.querySelector('#produtos').clearCache();    
+                  this.querySelector('#produtos').dataProvider = (params, callback) =>{
+                      callback(json, json.length);
+                  };
+                  this.querySelector('#findDescricao').value="";
                    
-          }).catch(erro =>{
-              this.showDialog("Erro na conexão como Servidor!");
-              console.log(erro.message);
-          });  
+              });  
+          }
+          
       }
       findByNome(){ 
-          this.service.getServices(`${this.CLIENTE_URL}FindByNome/${this.querySelector('#findNome').value}`)
-          .then((json) =>{ 
-              this.querySelector('#clientes').clearCache();    
-              this.querySelector('#clientes').dataProvider = (params, callback) =>{
-                  callback(json, json.length);
-              };
-              this.querySelector('#findNome').value="";
+          let nome = this.querySelector('#findNome').value;
+          if(nome.trim() != ''){
+              this.service.getServices(`${this.CLIENTE_URL}FindByNome/${nome}`)
+              .then((json) =>{ 
+                  this.querySelector('#clientes').clearCache();    
+                  this.querySelector('#clientes').dataProvider = (params, callback) =>{
+                      callback(json, json.length);
+                  };
+                  this.querySelector('#findNome').value="";
                    
-          }).catch(erro =>{
-              this.showDialog("Erro na conexão como Servidor!");
-              console.log(erro.message);
-          });  
+              }); 
+          }        
       }
       comparedDates(){
           if(new Date(this.querySelector('#dataCompra').value).getTime() <=
@@ -45097,12 +45098,16 @@
             <vaadin-custom-field label="Número Telefone">
                 <vaadin-text-field prevent-invalid-input pattern="[0-9]*" maxlength="3" placeholder="Area" id="area"></vaadin-text-field>
                 <vaadin-text-field prevent-invalid-input pattern="[0-9]*" maxlength="9" placeholder="Número" id="numero"></vaadin-text-field>
-            </vaadin-custom-field>       
+            </vaadin-custom-field>
+            <vaadin-form-item>
+                <vaadin-text-field label="Nome Cliente" style="width: 80%;" placeholder="Buscar por Nome do Cliente" id="findNome" clear-button-visible></vaadin-text-field>
+                <vaadin-button theme="primary" id="btnFindNome" @click=${_ => this.findByNome()}><iron-icon icon="vaadin:search"></iron-icon></vaadin-button></br>
+            </vaadin-form-item>       
             <vaadin-form-item>
                 <vaadin-button theme="primary" @click=${_ => this.persist()} id="btnSalvar">Salvar</vaadin-button>
                 <vaadin-button theme="primary" @click=${_ => this.deletar()} id="btnExcluir">Excluir</vaadin-button>
                 <vaadin-button theme="primary" @click=${_ =>this.cancelar()} id="btnCancelar">Novo</vaadin-button>
-            </vaadin-form-item>
+            </vaadin-form-item>            
         </vaadin-form-layout>
         <h4>Lista de Clientes</h4>
         <vaadin-grid>
@@ -45256,6 +45261,22 @@
           const clinte = new Cliente(this.querySelector('#id').value,this.querySelector('#nome').value, 
           this.querySelector('#email').value, this.querySelector('#area').value, this.querySelector('#numero').value);
           return clinte.json;
+      }
+      findByNome(){ 
+          let nome = this.querySelector('#findNome').value;
+          if(nome.trim() != ''){
+              this.service.getServices(`${this.URL}FindByNome/${nome}`)
+              .then((json) =>{ 
+                  this.querySelector('vaadin-grid').clearCache();    
+                  this.querySelector('vaadin-grid').dataProvider = (params, callback) =>{
+                      callback(json, json.length);
+                  };
+                  this.querySelector('#findNome').value="";       
+              }).catch(erro =>{
+                  this.showDialog("Erro na conexão como Servidor!");
+                  console.log(erro.message);
+              }); 
+          }         
       }
   }
   customElements.define('vapp-cliente-view',ClienteView);
@@ -50341,13 +50362,16 @@
           this.cleanFields();
       }
       findByDescricao(){
-          this.querySelector('vaadin-grid').dataProvider = (params, callback)=>{            
-              this.service.getServices(`resources/produtosFindByDescricao/${this.querySelector('#findDescricao').value}`).then(
-              (json) =>{ 
-                  callback(json, json.length);
-                  this.querySelector('#findDescricao').value='';
-              });
-          };
+          let descricao = this.querySelector('#findDescricao').value;
+          if(descricao.trim() != ''){
+              this.querySelector('vaadin-grid').dataProvider = (params, callback)=>{            
+                  this.service.getServices(`resources/produtosFindByDescricao/${descricao}`).then(
+                  (json) =>{ 
+                      callback(json, json.length);
+                      this.querySelector('#findDescricao').value='';
+                  });
+              };
+          }        
       }
       loadingGrid(){        
           const grid = this.querySelector('vaadin-grid');
@@ -50691,17 +50715,17 @@
           return venda.json;
       }
       findClientesByName(){  
-          this.service.getServices(`resources/findClientesByName/${this.querySelector('#findClienteByName').value}`)
-          .then((json) =>{ 
-              this.querySelector('#grid-vendas').clearCache();
-              this.querySelector('#grid-vendas').dataProvider =(params, callback) =>{
-                   callback(json, json.length);
-              };
-              this.querySelector('#findClienteByName').value='';     
-          }).catch(erro =>{
-              this.showDialog("Erro na conexão como Servidor!");
-              console.log(erro.message);
-          }); 
+          let nome = this.querySelector('#findClienteByName').value;
+          if(nome.trim() !=''){
+              this.service.getServices(`resources/findClientesByName/${nome}`)
+              .then((json) =>{ 
+                  this.querySelector('#grid-vendas').clearCache();
+                  this.querySelector('#grid-vendas').dataProvider =(params, callback) =>{
+                      callback(json, json.length);
+                  };
+                  this.querySelector('#findClienteByName').value='';     
+              }); 
+          }        
       }
       selectItemsEventListener(){            
           const grid = this.querySelector('#grid-vendas');

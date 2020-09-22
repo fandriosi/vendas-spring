@@ -36549,12 +36549,12 @@
             <vaadin-number-field label="Valor Pago" maxlength="8" placeholder="Valor Pago" id="valorPago"><div slot="prefix">R$</div></vaadin-number-field>
             <vaadin-form-item>
                 <vaadin-text-field label="Nome Cliente" style="width: 80%;" placeholder="Buscar por Nome do Cliente" id="findNome" clear-button-visible></vaadin-text-field>
-                <vaadin-button theme="primary" @click=${_ => this.findByNome()}><iron-icon icon="vaadin:search"></iron-icon></vaadin-button></br>
+                <vaadin-button theme="primary" id="btnFindNome" @click=${_ => this.findByNome()}><iron-icon icon="vaadin:search"></iron-icon></vaadin-button></br>
                 <vaadin-combo-box required style="width: 100%;" label="Cliente" item-label-path="nome" item-value-path="id" id="clientes" error-message="O Cliente não pode ser nulo!"></vaadin-combo-box>
             </vaadin-form-item>            
             <vaadin-form-item>
                 <vaadin-text-field label="Descrição do Produto" style="width: 80%;" placeholder="Buscar por Descrição do Produto" id="findDescricao" clear-button-visible></vaadin-text-field>
-                <vaadin-button theme="primary" id="btnFindByDescricao" @click=${_ => this.findByDescricao()}><iron-icon icon="vaadin:search"></iron-icon></vaadin-button></br>
+                <vaadin-button theme="primary" id="btnFindDescricao" @click=${_ => this.findByDescricao()}><iron-icon icon="vaadin:search"></iron-icon></vaadin-button></br>
                 <vaadin-combo-box required label="Produto"  style="width: 100%;" item-label-path="descricao" item-value-path="id" id="produtos" error-message="O produto não pode ser nulo!"></vaadin-combo-box>
             </vaadin-form-item>            
             <vaadin-combo-box required label="Tipo de Pagamento" item-label-path="descricao" item-value-path="id" id="tipoPagamento" error-message="O Tipo de Pagamento não pode ser nulo!"></vaadin-combo-box>
@@ -36583,7 +36583,7 @@
       if(this.comparedDates()){
           if(this.querySelector('#dataCompra').validate() && this.querySelector('#dataPagamento').validate() && 
               this.querySelector('#produtos').validate() && this.querySelector('#clientes').validate()&& this.querySelector('#quantidade').validate()){
-                  this.service.getServices(`${this.PRODUTO_URL}findByDescricao/${this.querySelector('#produtos').value}`)
+                  this.service.getServices(`${this.PRODUTO_URL}/${this.querySelector('#produtos').value}`)
                   .then(json =>{
                       this.produtosVendidos.push({quantidade: this.querySelector('#quantidade').value,
                       produto:json});
@@ -36643,32 +36643,33 @@
           this.querySelector('vaadin-grid').clearCache();
       }
       findByDescricao(){         
-          this.service.getServices(`${this.PRODUTO_URL}FindByDescricao/${this.querySelector('#findDescricao').value}`)
-          .then((json) =>{ 
-              this.querySelector('#produtos').clearCache();    
-              this.querySelector('#produtos').dataProvider = (params, callback) =>{
-                  callback(json, json.length);
-              };
-              this.querySelector('#findDescricao').value="";
+          let descricao = this.querySelector('#findDescricao').value;
+          if(descricao.trim()!=''){
+              this.service.getServices(`${this.PRODUTO_URL}FindByDescricao/${descricao}`)
+              .then((json) =>{ 
+                  this.querySelector('#produtos').clearCache();    
+                  this.querySelector('#produtos').dataProvider = (params, callback) =>{
+                      callback(json, json.length);
+                  };
+                  this.querySelector('#findDescricao').value="";
                    
-          }).catch(erro =>{
-              this.showDialog("Erro na conexão como Servidor!");
-              console.log(erro.message);
-          });  
+              });  
+          }
+          
       }
       findByNome(){ 
-          this.service.getServices(`${this.CLIENTE_URL}FindByNome/${this.querySelector('#findNome').value}`)
-          .then((json) =>{ 
-              this.querySelector('#clientes').clearCache();    
-              this.querySelector('#clientes').dataProvider = (params, callback) =>{
-                  callback(json, json.length);
-              };
-              this.querySelector('#findNome').value="";
+          let nome = this.querySelector('#findNome').value;
+          if(nome.trim() != ''){
+              this.service.getServices(`${this.CLIENTE_URL}FindByNome/${nome}`)
+              .then((json) =>{ 
+                  this.querySelector('#clientes').clearCache();    
+                  this.querySelector('#clientes').dataProvider = (params, callback) =>{
+                      callback(json, json.length);
+                  };
+                  this.querySelector('#findNome').value="";
                    
-          }).catch(erro =>{
-              this.showDialog("Erro na conexão como Servidor!");
-              console.log(erro.message);
-          });  
+              }); 
+          }        
       }
       comparedDates(){
           if(new Date(this.querySelector('#dataCompra').value).getTime() <=
@@ -36698,6 +36699,8 @@
           let clientesField = this.querySelector('#clientes');
           let quantidadeField = this.querySelector('#quantidade');
           let valorTotalField = this.querySelector('#total');
+          let btnFindDescricao = this.querySelector('#btnFindDescricao');
+          let btnFindNome = this.querySelector('#btnFindNome');
           if(option){
               dtCompraField.readonly = false;
               dtPagamentoField.readonly = false;
@@ -36708,10 +36711,12 @@
               valorPagoField.value= "";
               valorTotalField.value="";
               quantidadeField.value=1;
+              btnFindNome.disabled= false;
           }else {
               dtCompraField.readonly = true;
               dtPagamentoField.readonly = true;
               clientesField.readonly= true;
+              btnFindNome.disabled= true;
           }
       }
       attachDate(){
@@ -45093,12 +45098,16 @@
             <vaadin-custom-field label="Número Telefone">
                 <vaadin-text-field prevent-invalid-input pattern="[0-9]*" maxlength="3" placeholder="Area" id="area"></vaadin-text-field>
                 <vaadin-text-field prevent-invalid-input pattern="[0-9]*" maxlength="9" placeholder="Número" id="numero"></vaadin-text-field>
-            </vaadin-custom-field>       
+            </vaadin-custom-field>
+            <vaadin-form-item>
+                <vaadin-text-field label="Nome Cliente" style="width: 80%;" placeholder="Buscar por Nome do Cliente" id="findNome" clear-button-visible></vaadin-text-field>
+                <vaadin-button theme="primary" id="btnFindNome" @click=${_ => this.findByNome()}><iron-icon icon="vaadin:search"></iron-icon></vaadin-button></br>
+            </vaadin-form-item>       
             <vaadin-form-item>
                 <vaadin-button theme="primary" @click=${_ => this.persist()} id="btnSalvar">Salvar</vaadin-button>
                 <vaadin-button theme="primary" @click=${_ => this.deletar()} id="btnExcluir">Excluir</vaadin-button>
                 <vaadin-button theme="primary" @click=${_ =>this.cancelar()} id="btnCancelar">Novo</vaadin-button>
-            </vaadin-form-item>
+            </vaadin-form-item>            
         </vaadin-form-layout>
         <h4>Lista de Clientes</h4>
         <vaadin-grid>
@@ -45252,6 +45261,22 @@
           const clinte = new Cliente(this.querySelector('#id').value,this.querySelector('#nome').value, 
           this.querySelector('#email').value, this.querySelector('#area').value, this.querySelector('#numero').value);
           return clinte.json;
+      }
+      findByNome(){ 
+          let nome = this.querySelector('#findNome').value;
+          if(nome.trim() != ''){
+              this.service.getServices(`${this.URL}FindByNome/${nome}`)
+              .then((json) =>{ 
+                  this.querySelector('vaadin-grid').clearCache();    
+                  this.querySelector('vaadin-grid').dataProvider = (params, callback) =>{
+                      callback(json, json.length);
+                  };
+                  this.querySelector('#findNome').value="";       
+              }).catch(erro =>{
+                  this.showDialog("Erro na conexão como Servidor!");
+                  console.log(erro.message);
+              }); 
+          }         
       }
   }
   customElements.define('vapp-cliente-view',ClienteView);
@@ -50337,13 +50362,16 @@
           this.cleanFields();
       }
       findByDescricao(){
-          this.querySelector('vaadin-grid').dataProvider = (params, callback)=>{            
-              this.service.getServices(`resources/produtosFindByDescricao/${this.querySelector('#findDescricao').value}`).then(
-              (json) =>{ 
-                  callback(json, json.length);
-                  this.querySelector('#findDescricao').value='';
-              });
-          };
+          let descricao = this.querySelector('#findDescricao').value;
+          if(descricao.trim() != ''){
+              this.querySelector('vaadin-grid').dataProvider = (params, callback)=>{            
+                  this.service.getServices(`resources/produtosFindByDescricao/${descricao}`).then(
+                  (json) =>{ 
+                      callback(json, json.length);
+                      this.querySelector('#findDescricao').value='';
+                  });
+              };
+          }        
       }
       loadingGrid(){        
           const grid = this.querySelector('vaadin-grid');
@@ -50578,8 +50606,9 @@
             <vaadin-combo-box required label="Tipo de Pagamento" item-label-path="descricao" item-value-path="id" id="tipoPagamento" error-message="O Tipo de Pagamento não pode ser nulo!"></vaadin-combo-box>
             <vaadin-number-field label="Valor Total" placeholder="Valor Total" id="total" readonly="true"><div slot="prefix">R$</div></vaadin-number-field> 
             <vaadin-form-item>
-                <vaadin-text-field label="Saldo" placeholder="Valor Total" id="totalPago" readonly="true"><div slot="prefix">R$</div></vaadin-text-field> 
-                <vaadin-text-field label="Saldo Pago" placeholder="Valor Total" id="valorTotal" readonly="true"><div slot="prefix">R$</div></vaadin-text-field>
+                <vaadin-text-field label="Saldo" placeholder="Total" id="totalPago" readonly="true"><div slot="prefix">R$</div></vaadin-text-field> 
+                <vaadin-text-field label="Valor Pago" placeholder="Valor Pago" id="valorTotal" readonly="true"><div slot="prefix">R$</div></vaadin-text-field>
+                <vaadin-text-field label="Saldo Devedor" placeholder="Saldo Devedor" id="saldoDevedor" readonly="true"><div slot="prefix">R$</div></vaadin-text-field>
             </vaadin-form-item>             
             <vaadin-form-item>
                 <vaadin-text-field label="Nome do Cliente" style="width: 70%;" placeholder="Busca cliente por Nome" id="findClienteByName" clear-button-visible></vaadin-text-field>
@@ -50686,17 +50715,18 @@
           return venda.json;
       }
       findClientesByName(){  
-          this.service.getServices(`resources/findClientesByName/${this.querySelector('#findClienteByName').value}`)
-          .then((json) =>{ 
-              this.querySelector('#grid-vendas').clearCache();
-              this.querySelector('#grid-vendas').dataProvider =(params, callback) =>{
-                   callback(json, json.length);
-              };
-              this.querySelector('#findClienteByName').value='';     
-          }).catch(erro =>{
-              this.showDialog("Erro na conexão como Servidor!");
-              console.log(erro.message);
-          }); 
+          let nome = this.querySelector('#findClienteByName').value;
+          console.log('nome', nome);
+          if(nome.trim() !=''){
+              this.service.getServices(`resources/findClientesByName/${nome}`)
+              .then((json) =>{ 
+                  this.querySelector('#grid-vendas').clearCache();
+                  this.querySelector('#grid-vendas').dataProvider =(params, callback) =>{
+                      callback(json, json.length);
+                  };
+                  this.querySelector('#findClienteByName').value='';     
+              }); 
+          }        
       }
       selectItemsEventListener(){            
           const grid = this.querySelector('#grid-vendas');
@@ -50713,8 +50743,8 @@
               grid.selectedItems = item ? [item]:[];
               gridProdutos.clearCache();
               gridProdutos.items=item.produtosVendidos;    
-              dataCompraField.value = new Date(item.dataCompra).toLocaleDateString('pt-br');
-              dataPagamentoField.value= new Date(item.dataRecebimento).toLocaleDateString('pt-br');
+              dataCompraField.value = item.strDataCompra;
+              dataPagamentoField.value=item.strDataRecebimento;
               idField.value = item.id;
               valorPagoField.value = item.valorPago;
               clienteField.value = item.clientes.nome;
@@ -50740,6 +50770,7 @@
               (json)=>{
                   this.querySelector('#totalPago').value=new Intl.NumberFormat('pt-BR').format(json.totalValorPago.toFixed(2));
                   this.querySelector('#valorTotal').value=new Intl.NumberFormat('pt-BR').format(json.totalValorTotal.toFixed(2));
+                  this.querySelector('#saldoDevedor').value=new Intl.NumberFormat('pt-BR').format(json.totalValorPago.toFixed(2) - json.totalValorTotal.toFixed(2));
               }
           );
       }

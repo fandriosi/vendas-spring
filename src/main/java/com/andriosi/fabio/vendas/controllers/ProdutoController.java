@@ -25,9 +25,10 @@ public class ProdutoController {
         repository.findAll().forEach(list::add);
         return new ResponseEntity<>(list, HttpStatus.OK );
     }
-
     @GetMapping("/produtosFindByDescricao/{descricao}")
     public @ResponseBody ResponseEntity<List<Produto>> produtosByDescricao(@PathVariable("descricao") String descricao){
+        if(descricao == null)
+            descricao="";
         return new ResponseEntity<>(repository.findByDescricao(descricao), HttpStatus.OK);
     }
     @GetMapping("/produtos/reports")
@@ -37,7 +38,6 @@ public class ProdutoController {
         produtosReports.setTotalPreco(repository.getTotalPreco());
         return new ResponseEntity<>(produtosReports, HttpStatus.OK);
     }
-
     @GetMapping("/produtos/{id}")
     public @ResponseBody ResponseEntity<Produto> produtosById(@PathVariable("id") Long id){
         return new ResponseEntity<>(repository.findById(id).get(), HttpStatus.OK);
@@ -52,7 +52,6 @@ public class ProdutoController {
         });
         return new ResponseEntity<>(list, HttpStatus.OK );
     }
-
     @DeleteMapping("/produtos")
     public @ResponseBody ResponseEntity<List<Produto>> deleteProduto(@RequestBody Produto produto){
         repository.delete(produto);
@@ -60,7 +59,6 @@ public class ProdutoController {
         repository.findAll().forEach(list::add);
         return new ResponseEntity<>(list, HttpStatus.OK );
     }
-
     @PutMapping("/produtos")
     public @ResponseBody ResponseEntity<List<Produto>>  updateProduto(@RequestBody Produto produto){
         repository.save(produto);

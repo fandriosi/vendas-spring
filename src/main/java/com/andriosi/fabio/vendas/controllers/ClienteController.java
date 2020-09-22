@@ -47,6 +47,8 @@ public class ClienteController {
     }
     @GetMapping("/clientesFindByNome/{nome}")
     public @ResponseBody ResponseEntity<List<Cliente>> findByName(@PathVariable("nome") String nome){
+        if(nome == null)
+            nome="";
         return new ResponseEntity<>(repository.findByNome(nome),HttpStatus.OK );
     }
 }
