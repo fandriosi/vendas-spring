@@ -36710,13 +36710,11 @@
               valorPagoField.value= "";
               valorTotalField.value="";
               quantidadeField.value=1;
-              btnFindDescricao.disabled = false;
               btnFindNome.disabled= false;
           }else {
               dtCompraField.readonly = true;
               dtPagamentoField.readonly = true;
               clientesField.readonly= true;
-              btnFindDescricao.disabled = true;
               btnFindNome.disabled= true;
           }
       }
@@ -50584,8 +50582,9 @@
             <vaadin-combo-box required label="Tipo de Pagamento" item-label-path="descricao" item-value-path="id" id="tipoPagamento" error-message="O Tipo de Pagamento não pode ser nulo!"></vaadin-combo-box>
             <vaadin-number-field label="Valor Total" placeholder="Valor Total" id="total" readonly="true"><div slot="prefix">R$</div></vaadin-number-field> 
             <vaadin-form-item>
-                <vaadin-text-field label="Saldo" placeholder="Valor Total" id="totalPago" readonly="true"><div slot="prefix">R$</div></vaadin-text-field> 
-                <vaadin-text-field label="Saldo Pago" placeholder="Valor Total" id="valorTotal" readonly="true"><div slot="prefix">R$</div></vaadin-text-field>
+                <vaadin-text-field label="Saldo" placeholder="Total" id="totalPago" readonly="true"><div slot="prefix">R$</div></vaadin-text-field> 
+                <vaadin-text-field label="Valor Pago" placeholder="Valor Pago" id="valorTotal" readonly="true"><div slot="prefix">R$</div></vaadin-text-field>
+                <vaadin-text-field label="Saldo Devedor" placeholder="Saldo Devedor" id="saldoDevedor" readonly="true"><div slot="prefix">R$</div></vaadin-text-field>
             </vaadin-form-item>             
             <vaadin-form-item>
                 <vaadin-text-field label="Nome do Cliente" style="width: 70%;" placeholder="Busca cliente por Nome" id="findClienteByName" clear-button-visible></vaadin-text-field>
@@ -50746,6 +50745,7 @@
               (json)=>{
                   this.querySelector('#totalPago').value=new Intl.NumberFormat('pt-BR').format(json.totalValorPago.toFixed(2));
                   this.querySelector('#valorTotal').value=new Intl.NumberFormat('pt-BR').format(json.totalValorTotal.toFixed(2));
+                  this.querySelector('#saldoDevedor').value=new Intl.NumberFormat('pt-BR').format(json.toalValor.toFixed(2) - json.totalValorTotal.toFixed(2));
               }
           );
       }
