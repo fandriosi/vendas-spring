@@ -50745,7 +50745,7 @@
               (json)=>{
                   this.querySelector('#totalPago').value=new Intl.NumberFormat('pt-BR').format(json.totalValorPago.toFixed(2));
                   this.querySelector('#valorTotal').value=new Intl.NumberFormat('pt-BR').format(json.totalValorTotal.toFixed(2));
-                  this.querySelector('#saldoDevedor').value=new Intl.NumberFormat('pt-BR').format(json.toalValor.toFixed(2) - json.totalValorTotal.toFixed(2));
+                  this.querySelector('#saldoDevedor').value=new Intl.NumberFormat('pt-BR').format(json.totalValorPago.toFixed(2) - json.totalValorTotal.toFixed(2));
               }
           );
       }
