@@ -36472,13 +36472,14 @@
   }
 
   class Vendas{
-      constructor(id, dataCompra, dataRecebimento, tipoPagamento, valorPago, quantidade, valorTotal, idCliente,
+      constructor(id, dataCompra, dataRecebimento, tipoPagamento, valorPago, quantidade, valorTotal, desconto, idCliente,
           produto){
           this.id = id;
           this.dataCompra = dataCompra;
           this.dataRecebimento = dataRecebimento;
           this.tipoPagamento = tipoPagamento;
           this.valorPago = valorPago;
+          this.desconto = desconto;
           this.quantidade = quantidade;
           this.valorTotal = valorTotal;
           this.idCliente = idCliente;
@@ -36492,6 +36493,7 @@
               tipoPagamento: this.tipoPagamento,
               valorPago: this.valorPago,
               valorTotal: this.valorTotal,
+              desconto: this.desconto,
               clientes:{
                   id: this.idCliente
               },
@@ -36559,7 +36561,10 @@
             </vaadin-form-item>            
             <vaadin-combo-box required label="Tipo de Pagamento" item-label-path="descricao" item-value-path="id" id="tipoPagamento" error-message="O Tipo de Pagamento não pode ser nulo!"></vaadin-combo-box>
             <vaadin-integer-field required min="1" max="100" has-controls label="Quantidade" id="quantidade"></vaadin-integer-field>
-            <vaadin-number-field label="Valor Total" maxlength="8" placeholder="Valor Total" id="total" readonly="true"><div slot="prefix">R$</div></vaadin-number-field>
+            <vaadin-form-item>
+                <vaadin-number-field label="Valor Total" maxlength="8" placeholder="Valor Total" id="total" readonly="true" style="width: 49%;"><div slot="prefix">R$</div></vaadin-number-field>
+                <vaadin-number-field label="Desconto" maxlength="8" placeholder="Desconto" id="desconto" style="width: 49%;"><div slot="prefix">R$</div></vaadin-number-field>
+            </vaadin-form-item>            
             <vaadin-form-item>
                 <vaadin-button theme="primary" @click=${_ => this.addProdutos()} id="btnSalvar">Adicionar Produto</vaadin-button>
                 <vaadin-button theme="primary" @click=${_ => this.removerItem()} id="btnExcluir">Excluir Produto</vaadin-button>                
@@ -36682,7 +36687,7 @@
           this.querySelector('#quantidade').addEventListener('click', _ =>{
               this.service.getServicesJson(`${this.PRODUTO_URL}/${this.querySelector('#produtos').value}`)
               .then((json) =>{
-                  if(this.querySelector('#quantidade').value > json.quantidade){
+                  if(this.querySelector('#quantidade').value >= json.quantidade){
                       this.showDialog('Quantidade excede o total dos produtos em Estoque');
                       this.querySelector('#btnSalvar').disabled=true;
                   }else {
@@ -36699,7 +36704,7 @@
           let clientesField = this.querySelector('#clientes');
           let quantidadeField = this.querySelector('#quantidade');
           let valorTotalField = this.querySelector('#total');
-          let btnFindDescricao = this.querySelector('#btnFindDescricao');
+          let descontoField = this.querySelector('#desconto');
           let btnFindNome = this.querySelector('#btnFindNome');
           if(option){
               dtCompraField.readonly = false;
@@ -36710,7 +36715,8 @@
               dtPagamentoField.value= "";
               valorPagoField.value= "";
               valorTotalField.value="";
-              quantidadeField.value=1;
+              descontoField.value ="";
+              quantidadeField.value=0;
               btnFindNome.disabled= false;
           }else {
               dtCompraField.readonly = true;
@@ -36754,7 +36760,8 @@
       getJson(){
           const venda = new Vendas(this.querySelector('#id').value, this.querySelector('#dataCompra').value, 
               this.querySelector('#dataPagamento').value,this.querySelector('#tipoPagamento').value,this.querySelector('#valorPago').value, 
-              this.querySelector('#quantidade').value,this.querySelector('#total').value, this.querySelector('#clientes').value, this.produtosVendidos);         
+              this.querySelector('#quantidade').value,this.querySelector('#total').value, this.querySelector('#desconto').value,
+               this.querySelector('#clientes').value, this.produtosVendidos);         
           return venda.json;
       }
       selectItemsEventListener(){            
@@ -50186,13 +50193,14 @@
   customElements.define(ComboBoxElement.is, ComboBoxElement);
 
   class Produto{
-      constructor(id, descricao, codigoBarra, precoCusto, preco, quantidade, catId){
+      constructor(id, descricao, codigoBarra, precoCusto, preco, quantidade, estoque, catId){
           this.id = id;
           this.descricao = descricao;
           this.codigoBarra= codigoBarra;
           this.precoCusto =precoCusto;
           this.preco= preco;        
           this.quantidade = quantidade;
+          this.estoque = estoque;
           this.catId = catId;
       }
       get json(){
@@ -50203,6 +50211,7 @@
               precoCusto: this.precoCusto,
               preco: this.preco,
               quantidade: this.quantidade,
+              estoque:this.estoque,
               categoria: {
                   id: this.catId
               }
@@ -50232,19 +50241,22 @@
             <vaadin-text-field label="Código" disabled="true" style="width: 100%;" placeholder="Código" id="id"></vaadin-text-field>
             <vaadin-text-field required style="width: 100%;" placeholder="Descrição" id="descricao" label="Descrição" error-message="A descrição do produto não pode ser nulo!" clear-button-visible></vaadin-text-field>
             <vaadin-text-field label="Referência" style="width: 100%;" placeholder="Referência" id="referencia"  clear-button-visible></vaadin-text-field>    
-            <vaadin-integer-field  min="1" max="100" has-controls label="Quantidade" id="quantidade"></vaadin-integer-field>
+            <vaadin-form-item>
+                <vaadin-integer-field  min="1" max="1000" has-controls label="Quantidade" id="quantidade" style="width: 49%;"></vaadin-integer-field>
+                <vaadin-integer-field  min="0" max="1000" has-controls label="Estoque" id="estoque" style="width: 49%;"></vaadin-integer-field>
+            </vaadin-form-item>            
             <vaadin-combo-box label="Categoria" item-label-path="descricao" item-value-path="id"></vaadin-combo-box>
             <vaadin-form-item>
                 <vaadin-text-field  style="width: 70%;" placeholder="Buscar por Descrição do Produto" id="findDescricao" clear-button-visible></vaadin-text-field>
                 <vaadin-button theme="primary" id="btnFindByDescricao" @click=${_ => this.findByDescricao()}><iron-icon icon="vaadin:search"></iron-icon></vaadin-button>
             </vaadin-form-item>            
             <vaadin-custom-field label="Preço">
-                <vaadin-number-field  maxlength="12" placeholder="Custo" id="custo"><div slot="prefix">R$</div></vaadin-number-field>
-                <vaadin-number-field  maxlength="12" placeholder="Venda" id="venda"><div slot="prefix">R$</div></vaadin-number-field>
+                <vaadin-number-field  maxlength="12" placeholder="Custo" id="custo" style="width: 49%;"><div slot="prefix">R$</div></vaadin-number-field>
+                <vaadin-number-field  maxlength="12" placeholder="Venda" id="venda" style="width: 49%;"><div slot="prefix">R$</div></vaadin-number-field>
             </vaadin-custom-field> 
             <vaadin-form-item>
-                <vaadin-text-field label="Total Custo"  laceholder="Valor Total" id="precoCusto" readonly="true"><div slot="prefix">R$</div></vaadin-text-field> 
-                <vaadin-text-field label="Total Preço" placeholder="Valor Total" id="totalPreco" readonly="true"><div slot="prefix">R$</div></vaadin-text-field>
+                <vaadin-text-field label="Total Custo"  laceholder="Valor Total" id="precoCusto" readonly="true" style="width: 49%;"><div slot="prefix">R$</div></vaadin-text-field> 
+                <vaadin-text-field label="Total Preço" placeholder="Valor Total" id="totalPreco" readonly="true" style="width: 49%;"><div slot="prefix">R$</div></vaadin-text-field>
             </vaadin-form-item>      
             <vaadin-form-item>
                 <vaadin-button theme="primary" @click=${_ => this.persist()} id="btnSalvar">Salvar</vaadin-button>
@@ -50261,6 +50273,7 @@
             <vaadin-grid-column path="strPrecoCusto" header="Preço de Custo"></vaadin-grid-column>
             <vaadin-grid-column path="strPreco" header="Preço"></vaadin-grid-column>
             <vaadin-grid-column path="quantidade" header="Quantidade"></vaadin-grid-column>
+            <vaadin-grid-column path="estoque" header="Total Estoque"></vaadin-grid-column>
         </vaadin-grid>`;  
           render(template, this);   
       }    
@@ -50598,17 +50611,23 @@
         
         <vaadin-dialog aria-label="simple"></vaadin-dialog>
         <vaadin-form-layout>
-            <vaadin-text-field label="Código" readonly="true" style="width: 100%;" placeholder="Código" id="id"></vaadin-text-field>            
+            <vaadin-text-field label="Código" disabled="true" style="width: 100%;" placeholder="Código" id="id"></vaadin-text-field>            
             <vaadin-text-field readonly="true" label="Data da Compra" id="dataCompra"></vaadin-text-field>
             <vaadin-text-field readonly="true" label="Data Pagamento" id="dataPagamento" ></vaadin-text-field>
-            <vaadin-number-field label="Valor Pago" maxlength="8" placeholder="Valor Pago" id="valorPago"><div slot="prefix">R$</div></vaadin-number-field>
-            <vaadin-text-field readonly="true" label="Cliente" id="clientes"></vaadin-text-field>       
-            <vaadin-combo-box required label="Tipo de Pagamento" item-label-path="descricao" item-value-path="id" id="tipoPagamento" error-message="O Tipo de Pagamento não pode ser nulo!"></vaadin-combo-box>
-            <vaadin-number-field label="Valor Total" placeholder="Valor Total" id="total" readonly="true"><div slot="prefix">R$</div></vaadin-number-field> 
             <vaadin-form-item>
-                <vaadin-text-field label="Saldo" placeholder="Total" id="totalPago" readonly="true"><div slot="prefix">R$</div></vaadin-text-field> 
-                <vaadin-text-field label="Valor Pago" placeholder="Valor Pago" id="valorTotal" readonly="true"><div slot="prefix">R$</div></vaadin-text-field>
-                <vaadin-text-field label="Saldo Devedor" placeholder="Saldo Devedor" id="saldoDevedor" readonly="true"><div slot="prefix">R$</div></vaadin-text-field>
+                <vaadin-number-field label="Valor Pago" maxlength="8" placeholder="Valor Pago" id="valorPago" style="width: 49%;"><div slot="prefix">R$</div></vaadin-number-field>
+                <vaadin-number-field label="Total a Pagar" maxlength="8" placeholder="Total a Pagar" id="totalPagar" style="width: 49%;" readonly="true"><div slot="prefix">R$</div></vaadin-number-field>
+            </vaadin-form-item>            
+                <vaadin-text-field readonly="true" label="Cliente" id="clientes"></vaadin-text-field>       
+                <vaadin-combo-box required label="Tipo de Pagamento" item-label-path="descricao" item-value-path="id" id="tipoPagamento" error-message="O Tipo de Pagamento não pode ser nulo!"></vaadin-combo-box>
+            <vaadin-form-item>
+                <vaadin-number-field label="Valor Total" placeholder="Valor Total" id="total" readonly="true" style="width: 49%;"><div slot="prefix">R$</div></vaadin-number-field> 
+                <vaadin-number-field label="Desconto" placeholder="Desconto" id="desconto" readonly="true" style="width: 49%;"><div slot="prefix">R$</div></vaadin-number-field> 
+            </vaadin-form-item>            
+            <vaadin-form-item>
+                <vaadin-text-field label="Saldo" placeholder="Total" id="totalPago" readonly="true" style="width: 33%;"><div slot="prefix">R$</div></vaadin-text-field> 
+                <vaadin-text-field label="Valor Pago" placeholder="Valor Pago" id="valorTotal" readonly="true" style="width: 33%;"><div slot="prefix">R$</div></vaadin-text-field>
+                <vaadin-text-field label="Saldo Devedor" placeholder="Saldo Devedor" id="saldoDevedor" readonly="true" style="width: 33%;"><div slot="prefix">R$</div></vaadin-text-field>
             </vaadin-form-item>             
             <vaadin-form-item>
                 <vaadin-text-field label="Nome do Cliente" style="width: 70%;" placeholder="Busca cliente por Nome" id="findClienteByName" clear-button-visible></vaadin-text-field>
@@ -50638,6 +50657,7 @@
             <vaadin-grid-column path="tipoPagamento" header="Tipo de Pagamento"></vaadin-grid-column>                       
             <vaadin-grid-column path="strValorTotal" header="Total"></vaadin-grid-column>  
             <vaadin-grid-column path="strValorPago" header="Valor Pago"></vaadin-grid-column>    
+            <vaadin-grid-column path="strDesconto" header="Desconto"></vaadin-grid-column>   
         </vaadin-grid>`;
           render(templete, this);
       }
@@ -50697,6 +50717,7 @@
           this.querySelector('#valorPago').value='';
           this.querySelector('#clientes').value='';
           this.querySelector('#total').value='';
+          this.querySelector('#totalPagar').value='';
           this.querySelector('#grid-produtos').items=[];
       }
       showDialog(message){
@@ -50737,6 +50758,8 @@
           let clienteField = this.querySelector('#clientes');
           let totalField = this.querySelector('#total');
           let tipoPagamentoField = this.querySelector('#tipoPagamento');
+          let descontoField = this.querySelector('#desconto');
+          let totalPagarField = this.querySelector('#totalPagar');
           grid.addEventListener('active-item-changed', function(event){
               let item = event.detail.value;
               grid.selectedItems = item ? [item]:[];
@@ -50745,10 +50768,16 @@
               dataCompraField.value = item.strDataCompra;
               dataPagamentoField.value=item.strDataRecebimento;
               idField.value = item.id;
+              if(item.valorPago > 0){
+                  totalPagarField.value=((item.valorTotal-item.desconto)-item.valorPago).toFixed(2);
+              }else {
+                  totalPagarField.value=(item.valorTotal-item.desconto).toFixed(2);
+              }
               valorPagoField.value = item.valorPago;
+              descontoField.value = item.desconto;
               clienteField.value = item.clientes.nome;
               tipoPagamentoField.value = 0;
-              totalField.value = item.valorTotal.toFixed(2);
+              totalField.value = (item.valorTotal-item.desconto).toFixed(2);
           });    
       }
       attachComboBoxPagamentos(){

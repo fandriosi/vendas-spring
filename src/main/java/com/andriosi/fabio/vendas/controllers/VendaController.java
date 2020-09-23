@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -44,9 +45,11 @@ public class  VendaController {
     @PostMapping("/vendas")
     public @ResponseBody ResponseEntity<List<ProdutosVendidos>> creteVenda(@RequestBody Venda venda) {
         venda.setClientes(clienteRepository.findById(venda.getClientes().getId()).get());
+        if(venda.getDesconto() == null)
+            venda.setDesconto(BigDecimal.valueOf(0));
         venda.getProdutosVendidos().forEach(item ->{
             Produto produto = produtoRepository.findById(item.getProduto().getId()).get();
-            produto.setQuantidade(produto.getQuantidade() - item.getQuantidade());
+            produto.setEstoque(produto.getEstoque() + item.getQuantidade());
             produtoRepository.save(produto);
         });
         Venda v = repository.save(venda);

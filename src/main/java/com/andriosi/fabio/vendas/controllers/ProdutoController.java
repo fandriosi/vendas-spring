@@ -27,8 +27,6 @@ public class ProdutoController {
     }
     @GetMapping("/produtosFindByDescricao/{descricao}")
     public @ResponseBody ResponseEntity<List<Produto>> produtosByDescricao(@PathVariable("descricao") String descricao){
-        if(descricao == null)
-            descricao="";
         return new ResponseEntity<>(repository.findByDescricao(descricao), HttpStatus.OK);
     }
     @GetMapping("/produtos/reports")
@@ -44,6 +42,8 @@ public class ProdutoController {
     }
     @PostMapping("/produtos")
     public @ResponseBody ResponseEntity<List<Produto>> addProduto(@RequestBody Produto produto){
+        if(produto.getEstoque() == null)
+            produto.setEstoque(0);
         repository.save(produto);
         List<Produto> list = new ArrayList<>();
         repository.findAll().forEach(item ->{

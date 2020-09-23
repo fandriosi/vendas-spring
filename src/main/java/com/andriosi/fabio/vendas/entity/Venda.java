@@ -1,5 +1,6 @@
 package com.andriosi.fabio.vendas.entity;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -35,6 +36,8 @@ public class Venda implements Serializable {
     @OneToMany(fetch= FetchType.EAGER, cascade =CascadeType.ALL  )
     @JoinColumn(name = "fk_produtosvendidos")
     private List<ProdutosVendidos> produtosVendidos = new ArrayList<>();
+    @ColumnDefault("0.0")
+    private BigDecimal desconto;
     @Transient
     private String strDataRecebimento;
     @Transient
@@ -43,6 +46,8 @@ public class Venda implements Serializable {
     private String strValorPago;
     @Transient
     private String strValorTotal;
+    @Transient
+    private String strDesconto;
 
     public Long getId() {
         return id;
@@ -108,6 +113,14 @@ public class Venda implements Serializable {
         this.valorTotal = valorTotal;
     }
 
+    public BigDecimal getDesconto() {
+        return desconto;
+    }
+
+    public void setDesconto(BigDecimal desconto) {
+        this.desconto = desconto;
+    }
+
     public String getStrDataRecebimento() {
         SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
         strDataRecebimento = fmt.format(dataRecebimento.getTime());
@@ -132,5 +145,11 @@ public class Venda implements Serializable {
         if(valorTotal != null)
             strValorTotal = currency.format(valorTotal);
         return strValorTotal;
+    }
+    public String getStrDesconto() {
+        DecimalFormat currency = new DecimalFormat("'R$' 0.00");
+        if(desconto != null)
+            strDesconto = currency.format(desconto);
+        return strDesconto;
     }
 }

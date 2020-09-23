@@ -1,5 +1,7 @@
 package com.andriosi.fabio.vendas.entity;
 
+import net.bytebuddy.implementation.bind.annotation.Default;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.NumberFormat;
 
@@ -30,6 +32,8 @@ public class Produto implements Serializable {
     @OneToOne(fetch = FetchType.EAGER)
     public Categoria categoria;
     private Integer quantidade;
+    @ColumnDefault("0")
+    private Integer estoque;
     @Transient
     private String strPreco;
     @Transient
@@ -88,6 +92,14 @@ public class Produto implements Serializable {
 
     public void setQuantidade(Integer quantidade) {
         this.quantidade = quantidade;
+    }
+
+    public Integer getEstoque() {
+        return estoque;
+    }
+
+    public void setEstoque(Integer estoque) {
+        this.estoque = estoque;
     }
 
     public String getStrPreco() {
