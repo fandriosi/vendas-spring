@@ -1,4 +1,3 @@
-com/andriosi/fabio/vendas/testes/CategoriaTest.class
-com/andriosi/fabio/vendas/testes/VendaTest.class
-com/andriosi/fabio/vendas/testes/EstoqueTest.class
-com/andriosi/fabio/vendas/testes/ClienteTest.class
+com/andriosi/fabio/vendas/testes/Utilities.class
+com/andriosi/fabio/vendas/testes/StringCapitalizeTest.class
+com/andriosi/fabio/vendas/testes/EndToEndTest.class

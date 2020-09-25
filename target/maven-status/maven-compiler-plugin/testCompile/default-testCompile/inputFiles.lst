@@ -1,4 +1,3 @@
-/home/andriosi/IdeaProjects/venda/src/test/java/com/andriosi/fabio/vendas/testes/VendaTest.java
-/home/andriosi/IdeaProjects/venda/src/test/java/com/andriosi/fabio/vendas/testes/EstoqueTest.java
-/home/andriosi/IdeaProjects/venda/src/test/java/com/andriosi/fabio/vendas/testes/CategoriaTest.java
-/home/andriosi/IdeaProjects/venda/src/test/java/com/andriosi/fabio/vendas/testes/ClienteTest.java
+/home/andriosi/IdeaProjects/venda/src/test/java/com/andriosi/fabio/vendas/testes/StringCapitalizeTest.java
+/home/andriosi/IdeaProjects/venda/src/test/java/com/andriosi/fabio/vendas/testes/Utilities.java
+/home/andriosi/IdeaProjects/venda/src/test/java/com/andriosi/fabio/vendas/testes/EndToEndTest.java
