@@ -49,7 +49,7 @@ public class  VendaController {
             venda.setDesconto(BigDecimal.valueOf(0));
         venda.getProdutosVendidos().forEach(item ->{
             Produto produto = produtoRepository.findById(item.getProduto().getId()).get();
-            produto.setEstoque(produto.getEstoque() + item.getQuantidade());
+            produto.setEstoque(produto.getEstoque() - item.getQuantidade());
             produtoRepository.save(produto);
         });
         Venda v = repository.save(venda);

@@ -43,7 +43,7 @@ public class ProdutoController {
     @PostMapping("/produtos")
     public @ResponseBody ResponseEntity<List<Produto>> addProduto(@RequestBody Produto produto){
         if(produto.getEstoque() == null)
-            produto.setEstoque(0);
+            produto.setEstoque(produto.getQuantidade());
         repository.save(produto);
         List<Produto> list = new ArrayList<>();
         repository.findAll().forEach(item ->{

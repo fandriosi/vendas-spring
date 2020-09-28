@@ -13,9 +13,9 @@ import java.lang.reflect.Method;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http)throws Exception{
-        http.csrf().disable().authorizeRequests()
-                .antMatchers("/resources/templetes/*").permitAll()
-                .antMatchers("/resources/static/js/*").permitAll()
+        http.csrf().disable()
+               // .cors().and()
+                .authorizeRequests()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic()

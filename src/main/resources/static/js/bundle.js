@@ -36687,11 +36687,11 @@
           this.querySelector('#quantidade').addEventListener('click', _ =>{
               this.service.getServicesJson(`${this.PRODUTO_URL}/${this.querySelector('#produtos').value}`)
               .then((json) =>{
-                  if(this.querySelector('#quantidade').value >= json.quantidade){
+                  if(this.querySelector('#quantidade').value <= json.estoque){                    
+                      this.querySelector('#btnSalvar').disabled=false;
+                  }else {
                       this.showDialog('Quantidade excede o total dos produtos em Estoque');
                       this.querySelector('#btnSalvar').disabled=true;
-                  }else {
-                      this.querySelector('#btnSalvar').disabled=false;
                   }
               });
           });
@@ -50245,7 +50245,7 @@
                 <vaadin-integer-field  min="1" max="1000" has-controls label="Quantidade" id="quantidade" style="width: 49%;"></vaadin-integer-field>
                 <vaadin-integer-field  min="0" max="1000" has-controls label="Estoque" id="estoque" style="width: 49%;"></vaadin-integer-field>
             </vaadin-form-item>            
-            <vaadin-combo-box label="Categoria" item-label-path="descricao" item-value-path="id"></vaadin-combo-box>
+            <vaadin-combo-box label="Categoria" item-label-path="descricao" item-value-path="id" id="categorias"></vaadin-combo-box>
             <vaadin-form-item>
                 <vaadin-text-field  style="width: 70%;" placeholder="Buscar por Descrição do Produto" id="findDescricao" clear-button-visible></vaadin-text-field>
                 <vaadin-button theme="primary" id="btnFindByDescricao" @click=${_ => this.findByDescricao()}><iron-icon icon="vaadin:search"></iron-icon></vaadin-button>
@@ -50285,17 +50285,19 @@
           let custoTextfield = this.querySelector('#custo');
           let precoTextfield = this.querySelector('#venda');  
           let quantidadeTextfield= this.querySelector('#quantidade');
-          let categoriaComob = this.querySelector('vaadin-combo-box'); 
+          let estoqueTextfield= this.querySelector('#estoque');
+          let categoriaComob = this.querySelector('#categorias'); 
           grid.addEventListener('active-item-changed', function(event){
               const item = event.detail.value;
               grid.selectedItems = item ? [item]:[];
-              idTextfield.value=item.id;
+              idTextfield.value = item.id;
               descricaoTextfield.value=item.descricao; 
               referenciaTextfiel.value=item.codigoBarra;
               custoTextfield.value=item.precoCusto;
               precoTextfield.value=item.preco;
               quantidadeTextfield.value=item.quantidade;
-              categoriaComob.value = item.categoria.id; 
+              estoqueTextfield.value=item.estoque;
+              categoriaComob.value=item.categoria.id; 
           });         
           
       }
@@ -50409,12 +50411,13 @@
           this.querySelector('#referencia').value='';
           this.querySelector('#custo').value='';
           this.querySelector('#venda').value='';
+          this.querySelector('#estoque').value=0;
           this.querySelector('#quantidade').value=1;       
       }
       getJson(){
           const produto = new Produto(this.querySelector('#id').value, this.querySelector('#descricao').value.trim(),
               this.querySelector('#referencia').value, this.querySelector('#custo').value, this.querySelector('#venda').value,
-              this.querySelector('#quantidade').value,this.querySelector('vaadin-combo-box').value);   
+              this.querySelector('#quantidade').value, this.querySelector('#estoque').value, this.querySelector('#categorias').value);   
           return produto.json;
       }
       attachComboBox(){
